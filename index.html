@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全国高校生MY PROJECT AWARD 2024　参加登録フォーム</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        form {
+            display: grid;
+            gap: 20px;
+        }
+        label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: block;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        input[type="submit"] {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        input[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            z-index: 1000;
+            width: 90%;
+            max-width: 500px;
+        }
+        .popup h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 24px;
+        }
+        .popup input {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        .popup ul {
+            list-style-type: none;
+            padding: 0;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #eee;
+            border-radius: 4px;
+        }
+        .popup li {
+            cursor: pointer;
+            padding: 10px;
+            transition: background-color 0.2s;
+        }
+        .popup li:hover {
+            background-color: #f0f0f0;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+        .conditional-field {
+            display: none;
+        }
+        .conditional-field.show {
+            display: block;
+        }
+        .section-header {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            margin-bottom: 20px;
+        }
+        .help-text {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+        .required-label::after {
+            content: "*";
+            color: red;
+            margin-left: 3px;
+        }
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .radio-group label {
+            font-weight: normal;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        .radio-group input[type="radio"] {
+            margin-top: 3px;
+        }
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .checkbox-group label {
+            font-weight: normal;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        .address-section {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        .school-input-container {
+            display: flex;
+            gap: 10px;
+        }
+        .school-input-container input {
+            flex-grow: 1;
+        }
+        #search-school {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        #search-school:hover {
+            background-color: #27ae60;
+        }
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.9em;
+            margin-top: 5px;
+            display: none;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            .popup {
+                width: 95%;
+                padding: 20px;
+            }
+            .school-input-container {
+                flex-direction: column;
+            }
+            #search-school {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>全国高校生MY PROJECT AWARD 2024 参加登録フォーム</h1>
+        <form id="registrationForm">
+            <!-- 役割選択を最初に移動 -->
+            <div class="form-group">
+                <label class="required-label">ご自身の参加について、当てはまるものをご回答ください</label>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" id="role1" name="role" value="プロジェクト代表者" required>
+                        ①プロジェクト代表者（エントリーフォームを提出いただいた方）
+                    </label>
+                    <label>
+                        <input type="radio" id="role2" name="role" value="参加メンバー">
+                        ②プロジェクト代表者以外で、地域Summitに参加するプロジェクトメンバー
+                    </label>
+                    <label>
+                        <input type="radio" id="role3" name="role" value="不参加メンバー">
+                        ③プロジェクト代表者以外で、地域Summitには参加しないプロジェクトメンバー
+                    </label>
+                </div>
+            </div>
+
+            <!-- Summit選択 -->
+            <div class="form-group">
+                <label for="summit" class="required-label">参加する地域summitをお答えください。</label>
+                <select id="summit" name="summit" required>
+                    <option value="">選択してください</option>
+                    <option value="青森県Summit">2/1（土）青森県Summit</option>
+                    <option value="岩手県Summit">12/22（日）岩手県Summit</option>
+                    <option value="宮城県Summit">2/1（土）宮城県Summit</option>
+                    <option value="山形県Summit">2/2（日）山形県Summit</option>
+                    <option value="福島県Summit">1/25（土）福島県Summit</option>
+                    <option value="岐阜県Summit">1/12（日）岐阜県Summit</option>
+                    <option value="愛知県Summit">1/13（月・祝）愛知県Summit</option>
+                    <option value="福井県Summit">1/13（月・祝）福井県Summit</option>
+                    <option value="京都府Summit">1/11（土）京都府Summit</option>
+                    <option value="広島県Summit">2/2（日）広島県Summit</option>
+                    <option value="長崎県Summit">1/26（日）長崎県Summit</option>
+                    <option value="宮崎県Summit">12/22（日）宮崎県Summit</option>
+                    <option value="沖縄県Summit">1/25（土）＆2/8（土）沖縄県Summit</option>
+                    <option value="予備Summit">12/26（木）上記地域の予備Summit</option>
+                    <option value="オンラインSummitA1">12/26（木）18時30分-21時30分 オンラインSummitA</option>
+                    <option value="オンラインSummitA2">12/27（金）18時30分-21時30分 オンラインSummitA</option>
+                    <option value="オンラインSummitA3">1/11（土）13時00分-16時00分 オンラインSummitA</option>
+                    <option value="オンラインSummitA4">1/11（土）18時30分-21時30分 オンラインSummitA</option>
+                    <option value="オンラインSummitA5">1/29（水）18時30分-21時30分 オンラインSummitA</option>
+                    <option value="オンラインSummitA6">2/1（土）13時00分-16時00分 オンラインSummitA</option>
+                    <option value="オンラインSummitB1">12/26（木）18時30分-21時30分 オンラインSummitB</option>
+                    <option value="オンラインSummitB2">12/27（金）18時30分-21時30分 オンラインSummitB</option>
+                    <option value="オンラインSummitB3">1/11（土）13時00分-16時00分 オンラインSummitB</option>
+                    <option value="オンラインSummitB4">1/11（土）18時30分-21時30分 オンラインSummitB</option>
+                    <option value="オンラインSummitB5">1/29（水）18時30分-21時30分 オンラインSummitB</option>
+                    <option value="オンラインSummitB6">2/1（土）13時00分-16時00分 オンラインSummitB</option>
+                </select>
+                <p class="help-text">エントリー時に選択したSummitで書類選考を行っているため、参加地域Summitの変更は原則不可となります。</p>
+            </div>
+
+
+            <!-- 基本情報 -->
+            <div class="form-group">
+                <label for="name" class="required-label">氏名（フルネーム）</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="project" class="required-label">プロジェクト/探究のタイトル</label>
+                <input type="text" id="project" name="project" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="required-label">メールアドレス</label>
+                <input type="email" id="email" name="email" required>
+                <p class="help-text">今後のご連絡、および「参加証明書」はこちらのメールアドレスに送付されます。</p>
+            </div>
+
+            <div class="form-group">
+                <label for="email-confirm" class="required-label">メールアドレス（確認用）</label>
+                <input type="email" id="email-confirm" name="email-confirm" required>
+                <p class="help-text">確認のためコピーせずに、再度入力してください。</p>
+                <div class="error-message" id="email-error">メールアドレスが一致しません</div>
+            </div>
+
+            <div class="form-group">
+                <label for="phone" class="required-label">電話番号</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+
+            <!-- 学校情報 -->
+            <div class="form-group">
+                <label for="school-type" class="required-label">学校種別</label>
+                <select id="school-type" name="school-type" required>
+                    <option value="">選択してください</option>
+                    <option value="国立">国立（独立行政法人含む）</option>
+                    <option value="公立">公立</option>
+                    <option value="私立">私立</option>
+                    <option value="その他">その他（なしを含む）</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="school-prefecture" class="required-label">学校所在都道府県</label>
+                <select id="school-prefecture" name="school-prefecture" required>
+                    <option value="">選択してください</option>
+                    <option value="北海道">北海道</option>
+                    <option value="青森県">青森県</option>
+                    <option value="岩手県">岩手県</option>
+                    <option value="宮城県">宮城県</option>
+                    <option value="秋田県">秋田県</option>
+                    <option value="山形県">山形県</option>
+                    <option value="福島県">福島県</option>
+                    <option value="茨城県">茨城県</option>
+                    <option value="栃木県">栃木県</option>
+                    <option value="群馬県">群馬県</option>
+                    <option value="埼玉県">埼玉県</option>
+                    <option value="千葉県">千葉県</option>
+                    <option value="東京都">東京都</option>
+                    <option value="神奈川県">神奈川県</option>
+                    <option value="新潟県">新潟県</option>
+                    <option value="富山県">富山県</option>
+                    <option value="石川県">石川県</option>
+                    <option value="福井県">福井県</option>
+                    <option value="山梨県">山梨県</option>
+                    <option value="長野県">長野県</option>
+                    <option value="岐阜県">岐阜県</option>
+                    <option value="静岡県">静岡県</option>
+                    <option value="愛知県">愛知県</option>
+                    <option value="三重県">三重県</option>
+                    <option value="滋賀県">滋賀県</option>
+                    <option value="京都府">京都府</option>
+                    <option value="大阪府">大阪府</option>
+                    <option value="兵庫県">兵庫県</option>
+                    <option value="奈良県">奈良県</option>
+                    <option value="和歌山県">和歌山県</option>
+                    <option value="鳥取県">鳥取県</option>
+                    <option value="島根県">島根県</option>
+                    <option value="岡山県">岡山県</option>
+                    <option value="広島県">広島県</option>
+                    <option value="山口県">山口県</option>
+                    <option value="徳島県">徳島県</option>
+                    <option value="香川県">香川県</option>
+                    <option value="愛媛県">愛媛県</option>
+                    <option value="高知県">高知県</option>
+                    <option value="福岡県">福岡県</option>
+                    <option value="佐賀県">佐賀県</option>
+                    <option value="長崎県">長崎県</option>
+                    <option value="熊本県">熊本県</option>
+                    <option value="大分県">大分県</option>
+                    <option value="宮崎県">宮崎県</option>
+                    <option value="鹿児島県">鹿児島県</option>
+                    <option value="沖縄県">沖縄県</option>
+                    <option value="その他">その他</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="school-name" class="required-label">高校名</label>
+                <div class="school-input-container">
+                    <input type="text" id="school-name" name="school-name" readonly required>
+                    <button type="button" id="search-school">高校を検索</button>
+                </div>
+                <p class="help-text">「参加証明書」には、こちらの学校名で記載されます。</p>
+            </div>
+
+            <div class="form-group">
+                <label for="grade" class="required-label">あなたの所属学年</label>
+                <select id="grade" name="grade" required>
+                    <option value="">選択してください</option>
+                    <option value="1年生">1年生</option>
+                    <option value="2年生">2年生</option>
+                    <option value="3年生">3年生</option>
+                    <option value="その他">その他</option>
+                </select>
+            </div>
+
+            <!-- プロジェクト代表者専用セクション -->
+            <div id="representative-section" class="conditional-field">
+                <div class="section-header">
+                    <h2>プロジェクト代表者のみ記入</h2>
+                </div>
+
+                <div class="form-group">
+                    <label for="member-notification" class="required-label">プロジェクト所属メンバー全員への本フォームの案内状況</label>
+                    <select id="member-notification" name="member-notification">
+                        <option value="">選択してください</option>
+                        <option value="完了">全員に案内をしました（プロジェクト所属メンバーが自分以外にいない場合もこちらをお選びください）</option>
+                        <option value="未完了">これから案内をします</option>
+                    </select>
+                    <p class="help-text">「これから案内します」を選択される方も、この後速やかに、メンバー全員へ本フォームの入力を案内し、対応したかどうか確認してください。</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="participant-count" class="required-label">地域Summit参加予定人数</label>
+                    <input type="number" id="participant-count" name="participant-count" min="1">
+                </div>
+
+                <div class="address-section">
+                    <h3>記念品/機器貸出の送付先</h3>
+                    <p class="help-text">許可が取れていれば、自宅でも学校でも構いません。機器貸出がない場合もご記入ください。</p>
+
+                    <div class="form-group">
+                        <label for="postal-code" class="required-label">郵便番号</label>
+                        <input type="text" id="postal-code" name="postal-code" placeholder="例）166-0003">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address" class="required-label">住所</label>
+                        <input type="text" id="address" name="address" placeholder="例）東京都中野区中野5丁目15番2号　マイプロ高等学校">
+                        <p class="help-text">部屋番号まで記載ください。宛先が学校の場合、学校名まで記載ください。</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address-type" class="required-label">送付先住所の属性</label>
+                        <select id="address-type" name="address-type">
+                            <option value="">選択してください</option>
+                            <option value="自宅">自宅</option>
+                            <option value="学校">学校</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="delivery-phone" class="required-label">送付先の電話番号</label>
+                        <input type="tel" id="delivery-phone" name="delivery-phone">
+                        <p class="help-text">送付先施設の番号が不明の場合はご自身の電話番号でも構いません。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- オンライン参加関連セクション -->
+            <div id="online-participation-section" class="conditional-field">
+                <div class="section-header">
+                    <h2>オンライン参加に関する情報</h2>
+                    <p>・学校等で集まって接続する形態が難しい場合は、参加高校生/引率者はそれぞれ別々の場所、別々の端末から当日接続いただくことが可能です。</p>
+                    <p>・資料投影を行う方（代表者の方など）に関しては、安定した接続環境とタブレットもしくはPCでの接続を推奨しています。</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="participation-style" class="required-label">地域Summit当日に当てはまる状況</label>
+                    <select id="participation-style" name="participation-style">
+                        <option value="">選択してください</option>
+                        <option value="集合">当日は1ヶ所に集まって接続する予定</option>
+                        <option value="分散">当日は各自バラバラの場所で接続する予定</option>
+                        <option value="その他">その他</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="connection-status" class="required-label">通信環境と機器について</label>
+                    <select id="connection-status" name="connection-status">
+                        <option value="">選択してください</option>
+                        <option value="pc-wifi">代表者が通信環境（wifi）と機器（PCもしくはタブレット）を用意できる</option>
+                        <option value="phone-wifi">代表者が通信環境（wifi）と機器（スマートフォンのみ）を用意できる</option>
+                        <option value="pc-no-wifi">代表者が通信環境（wifi）を用意できない※機器（PCもしくはタブレット）は用意できる</option>
+                        <option value="phone-no-wifi">代表者が通信環境（wifi）を用意できない※機器（スマートフォンのみ）は用意できる</option>
+                        <option value="nothing">代表者が通信環境（wifi）や機器を用意できない</option>
+                        <option value="その他">その他</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="equipment-rental" class="required-label">通信環境（wifi）/機器（タブレット）の貸出希望</label>
+                    <select id="equipment-rental" name="equipment-rental">
+                        <option value="不要">希望しない</option>
+                        <option value="希望">希望する</option>
+                    </select>
+                    <p class="help-text">原則、1PJにつき通信環境及び機器を1セットまで貸出をします。</p>
+                </div>
+            </div>
+
+            <!-- 接続テストセクション -->
+            <div id="connection-test-section" class="conditional-field">
+                <div class="section-header">
+                    <h2>接続テストの参加希望</h2>
+                    <p class="help-text">
+                        ・必ず、ご自身が参加されるサミットより前の日程をお選びください。<br>
+                        ・希望多数の日程については順次募集を締め切ります。<br>
+                        ・学校で日頃zoomなどのオンライン会議システムを使用していない方やPC等の操作に不安のある方はぜひご参加ください。<br>
+                        ・メンバー全員が接続テストに参加する必要はありません。代表者のみの参加で構いません。<br>
+                        ・接続テスト参加時は、できるだけ地域Sum当日と同じ環境での参加をお願いします。
+                    </p>
+                </div>
+                <div class="checkbox-group" id="connection-test-dates">
+                    <!-- JavaScriptで動的に生成 -->
+                </div>
+            </div>
+
+            <input type="submit" value="送信">
+        </form>
+    </div>
+
+    <!-- 高校検索用ポップアップ -->
+    <div class="overlay" id="overlay"></div>
+    <div class="popup" id="school-search-popup">
+        <h2>高校を検索</h2>
+        <input type="text" id="school-search-input" placeholder="高校名を入力してください">
+        <button id="school-search-button">検索</button>
+        <ul id="school-search-results"></ul>
+    </div>
+
+    <script>
+        // WebアプリのURL（現在のものを維持）
+        const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbwFYmJ7I_5fy5CJWEeLuJ-fha8nSclGNl50bTsnmfMQJimlvrO6GwW0_dKrQVzEWyBJ/exec';
+        let schools = [];
+    
+        // フォーム送信処理
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // 送信ボタンの状態を更新
+            const submitButton = this.querySelector('input[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.value = '送信中...';
+    
+            try {
+                // フォームデータの収集
+                const formData = new FormData(this);
+                const jsonData = {};
+                
+                // FormDataの処理
+                formData.forEach((value, key) => {
+                    if (key === 'connection-test-slots') {
+                        // チェックボックスの値を配列として取得
+                        jsonData[key] = Array.from(
+                            document.querySelectorAll('input[name="connection-test-slots"]:checked')
+                        ).map(checkbox => checkbox.value);
+                    } else {
+                        jsonData[key] = value;
+                    }
+                });
+    
+                // CORS制限を回避するためのフォーム送信
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = WEBAPP_URL;
+                form.target = '_blank'; // 新しいタブで開く（ブロックされない）
+    
+                // JSONデータをhidden inputとして追加
+                const hiddenField = document.createElement('input');
+                hiddenField.type = 'hidden';
+                hiddenField.name = 'payload';
+                hiddenField.value = JSON.stringify(jsonData);
+                form.appendChild(hiddenField);
+    
+                // フォームを一時的にドキュメントに追加して送信
+                document.body.appendChild(form);
+                form.submit();
+                document.body.removeChild(form);
+    
+                // 送信完了として扱う
+                setTimeout(() => {
+                    window.location.reload();
+                }, 3000);
+    
+            } catch (error) {
+                console.error('送信エラー:', error);
+                submitButton.disabled = false;
+                submitButton.value = '送信';
+            }
+        });
+    
+        // 学校検索のための非同期データ取得関数
+        async function fetchSchools() {
+            try {
+                const form = document.createElement('form');
+                form.method = 'GET';
+                form.action = WEBAPP_URL;
+                form.target = 'hidden-iframe';
+    
+                // 非表示のiframeを作成
+                const iframe = document.createElement('iframe');
+                iframe.name = 'hidden-iframe';
+                iframe.style.display = 'none';
+                document.body.appendChild(iframe);
+                document.body.appendChild(form);
+    
+                // GETリクエストを送信
+                form.submit();
+    
+                // レスポンスを待機
+                const response = await new Promise((resolve) => {
+                    iframe.onload = () => {
+                        try {
+                            const content = iframe.contentDocument.body.textContent;
+                            resolve(JSON.parse(content));
+                        } catch (error) {
+                            resolve([]);
+                        }
+                        document.body.removeChild(form);
+                        document.body.removeChild(iframe);
+                    };
+                });
+    
+                return response;
+            } catch (error) {
+                console.error('学校リストの取得に失敗しました:', error);
+                return [];
+            }
+        }
+    
+        // 高校検索関連の処理
+        const searchButton = document.getElementById('search-school');
+        const popup = document.getElementById('school-search-popup');
+        const overlay = document.getElementById('overlay');
+        const searchInput = document.getElementById('school-search-input');
+        const searchResults = document.getElementById('school-search-results');
+        const schoolNameInput = document.getElementById('school-name');
+        const schoolSearchButton = document.getElementById('school-search-button');
+    
+        function createOtherOption() {
+            const otherOption = document.createElement('li');
+            otherOption.textContent = 'その他（なしを含む）';
+            otherOption.addEventListener('click', function() {
+                schoolNameInput.value = 'その他（なしを含む）';
+                closePopup();
+            });
+            return otherOption;
+        }
+    
+        function closePopup() {
+            popup.style.display = 'none';
+            overlay.style.display = 'none';
+        }
+    
+        searchButton.addEventListener('click', function() {
+            popup.style.display = 'block';
+            overlay.style.display = 'block';
+            searchInput.focus();
+            
+            // 初期表示時は「その他」オプションのみ表示
+            searchResults.innerHTML = '';
+            searchResults.appendChild(createOtherOption());
+        });
+    
+        overlay.addEventListener('click', closePopup);
+    
+        schoolSearchButton.addEventListener('click', async function() {
+            if (schools.length === 0) {
+                await fetchSchools();
+            }
+    
+            const searchTerm = searchInput.value.toLowerCase();
+            const filteredSchools = schools.filter(school => 
+                school.toLowerCase().includes(searchTerm)
+            );
+            displayResults(filteredSchools);
+        });
+    
+        function displayResults(results) {
+            searchResults.innerHTML = '';
+            
+            if (results.length === 0) {
+                const noResults = document.createElement('li');
+                noResults.textContent = '該当する高校が見つかりません';
+                noResults.style.fontStyle = 'italic';
+                noResults.style.color = '#666';
+                searchResults.appendChild(noResults);
+            } else {
+                results.forEach(school => {
+                    const li = document.createElement('li');
+                    li.textContent = school;
+                    li.addEventListener('click', function() {
+                        schoolNameInput.value = school;
+                        closePopup();
+                    });
+                    searchResults.appendChild(li);
+                });
+            }
+    
+            // 「その他」オプションを常に最後に追加
+            searchResults.appendChild(createOtherOption());
+        }
+    
+        // 役割選択による条件分岐
+        document.querySelectorAll('input[name="role"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const representativeSection = document.getElementById('representative-section');
+                if (this.value === 'プロジェクト代表者') {
+                    representativeSection.classList.add('show');
+                    // 必須項目の設定
+                    ['member-notification', 'participant-count', 'postal-code', 'address', 'address-type', 'delivery-phone'].forEach(id => {
+                        const element = document.getElementById(id);
+                        if (element) element.required = true;
+                    });
+                } else {
+                    representativeSection.classList.remove('show');
+                    // 必須項目の解除
+                    ['member-notification', 'participant-count', 'postal-code', 'address', 'address-type', 'delivery-phone'].forEach(id => {
+                        const element = document.getElementById(id);
+                        if (element) element.required = false;
+                    });
+                }
+            });
+        });
+    
+        // Summit選択による条件分岐
+        document.getElementById('summit').addEventListener('change', function() {
+            const summit = this.value;
+            const onlineSection = document.getElementById('online-participation-section');
+            const connectionTestSection = document.getElementById('connection-test-section');
+            const isOnline = summit.includes('オンライン');
+            
+            onlineSection.classList.toggle('show', isOnline);
+            connectionTestSection.classList.toggle('show', isOnline);
+    
+            // オンライン参加時の必須項目設定
+            ['participation-style', 'connection-status', 'equipment-rental'].forEach(id => {
+                const element = document.getElementById(id);
+                if (element) element.required = isOnline;
+            });
+        });
+    
+        // 接続テスト日程の動的生成
+        function generateConnectionTestDates() {
+            const dates = [
+                { date: '12/26', times: ['18:30-21:30'] },
+                { date: '12/27', times: ['18:30-21:30'] },
+                { date: '1/11', times: ['13:00-16:00', '18:30-21:30'] },
+                { date: '1/29', times: ['18:30-21:30'] },
+                { date: '2/1', times: ['13:00-16:00'] }
+            ];
+    
+            const container = document.getElementById('connection-test-dates');
+            container.innerHTML = ''; // Clear existing content
+    
+            dates.forEach(dateObj => {
+                dateObj.times.forEach(time => {
+                    const label = document.createElement('label');
+                    const input = document.createElement('input');
+                    input.type = 'checkbox';
+                    input.name = 'connection-test-slots';
+                    input.value = `${dateObj.date} ${time}`;
+                    label.appendChild(input);
+                    label.appendChild(document.createTextNode(` ${dateObj.date} ${time}`));
+                    container.appendChild(label);
+                });
+            });
+        }
+    
+        // メールアドレス確認のバリデーション
+        function validateEmails() {
+            const emailInput = document.getElementById('email');
+            const emailConfirmInput = document.getElementById('email-confirm');
+            const emailError = document.getElementById('email-error');
+    
+            if (!emailInput.value || !emailConfirmInput.value) {
+                emailError.style.display = 'block';
+                emailError.textContent = 'メールアドレスを入力してください';
+                return false;
+            }
+    
+            if (emailInput.value !== emailConfirmInput.value) {
+                emailError.style.display = 'block';
+                emailError.textContent = 'メールアドレスが一致しません';
+                emailConfirmInput.setCustomValidity('メールアドレスが一致しません');
+                return false;
+            }
+    
+            emailError.style.display = 'none';
+            emailConfirmInput.setCustomValidity('');
+            return true;
+        }
+    
+        // イベントリスナーの設定
+        document.addEventListener('DOMContentLoaded', function() {
+            const emailInput = document.getElementById('email');
+            const emailConfirmInput = document.getElementById('email-confirm');
+            
+            emailInput.addEventListener('input', validateEmails);
+            emailConfirmInput.addEventListener('input', validateEmails);
+    
+            // 初期化処理
+            generateConnectionTestDates();
+            fetchSchools();
+        });
+    </script>
+</body>
+</html>
