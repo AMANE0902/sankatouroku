@@ -5,365 +5,525 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>全国高校生MY PROJECT AWARD 2024　参加登録フォーム</title>
     <style>
-        body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-            background-color: #f0f2f5;
-            color: #333;
-        }
-        .container {
-            max-width: 800px;
-            margin: auto;
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #2c3e50;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        form {
-            display: grid;
-            gap: 20px;
-        }
-        label {
-            font-weight: 600;
-            margin-bottom: 5px;
-            display: block;
-        }
-        input[type="text"],
-        input[type="email"],
-        input[type="tel"],
-        input[type="number"],
-        select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-        input[type="submit"] {
-            background-color: #3498db;
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-        input[type="submit"]:hover {
-            background-color: #2980b9;
-        }
-        .popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-            z-index: 1000;
-            width: 90%;
-            max-width: 500px;
-        }
-        .popup h2 {
-            margin-top: 0;
-            color: #2c3e50;
-            font-size: 24px;
-        }
-        .popup input {
-            width: 100%;
-            margin-bottom: 15px;
-        }
-        .popup ul {
-            list-style-type: none;
-            padding: 0;
-            max-height: 300px;
-            overflow-y: auto;
-            border: 1px solid #eee;
-            border-radius: 4px;
-        }
-        .popup li {
-            cursor: pointer;
-            padding: 10px;
-            transition: background-color 0.2s;
-        }
-        .popup li:hover {
-            background-color: #f0f0f0;
-        }
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            z-index: 999;
-        }
-        .conditional-field {
-            display: none;
-        }
-        .conditional-field.show {
-            display: block;
-        }
-        .section-header {
-            margin-top: 30px;
-            padding: 15px;
-            background-color: #f8f9fa;
-            border-left: 4px solid #3498db;
-            margin-bottom: 20px;
-        }
-        .help-text {
-            font-size: 0.9em;
-            color: #666;
-            margin-top: 5px;
-        }
-        .required-label::after {
-            content: "*";
-            color: red;
-            margin-left: 3px;
-        }
-        .radio-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        .radio-group label {
-            font-weight: normal;
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
-        }
-        .radio-group input[type="radio"] {
-            margin-top: 3px;
-        }
-        .checkbox-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        .checkbox-group label {
-            font-weight: normal;
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
-        }
-        .address-section {
-            border: 1px solid #ddd;
-            padding: 20px;
-            border-radius: 4px;
-            margin: 20px 0;
-        }
-        .school-input-container {
-            display: flex;
-            gap: 10px;
-        }
-        .school-input-container input {
-            flex-grow: 1;
-        }
-        #search-school {
-            background-color: #2ecc71;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-        #search-school:hover {
-            background-color: #27ae60;
-        }
-        .error-message {
-            color: #e74c3c;
-            font-size: 0.9em;
-            margin-top: 5px;
-            display: none;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        @media (max-width: 600px) {
-            .container {
-                padding: 15px;
-            }
-            .popup {
-                width: 95%;
-                padding: 20px;
-            }
-            .school-input-container {
-                flex-direction: column;
-            }
-            #search-school {
-                width: 100%;
-            }
-        }
+        /* 既存のスタイルはそのまま保持 */
+       /* 基本カラーパレット */
+:root {
+  --primary-color: #2563eb;
+  --primary-hover: #1d4ed8;
+  --success-color: #22c55e;
+  --error-color: #ef4444;
+  --text-primary: #1f2937;
+  --text-secondary: #4b5563;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f3f4f6;
+  --border-color: #e5e7eb;
+  --focus-ring: #93c5fd;
+}
+
+/* 基本レイアウト */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background-color: #f9fafb;
+}
+
+.container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: var(--bg-primary);
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+/* ヘッダーとナビゲーション */
+h1 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: center;
+  margin-bottom: 2rem;
+  line-height: 1.3;
+}
+
+.form-navigation {
+  background-color: var(--bg-secondary);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border-left: 4px solid var(--primary-color);
+}
+
+.navigation-steps {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navigation-steps li {
+  margin-bottom: 0.75rem;
+  padding-left: 1.5rem;
+  position: relative;
+  color: var(--text-secondary);
+}
+
+.navigation-steps li.active {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.navigation-steps li:before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--primary-color);
+}
+
+/* フォーム要素 */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.required-label::after {
+  content: "*";
+  color: var(--error-color);
+  margin-left: 0.25rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+/* ラジオとチェックボックスグループ */
+.radio-group,
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.radio-group label,
+.checkbox-group label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  margin-top: 0.25rem;
+}
+
+/* セクションヘッダー */
+.section-header {
+  background-color: var(--bg-secondary);
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  margin: 2rem 0 1.5rem;
+  border-left: 4px solid var(--primary-color);
+}
+
+.section-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--text-primary);
+}
+
+/* ヘルプテキスト */
+.help-text {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-top: 0.5rem;
+}
+
+/* エラーメッセージ */
+.error-message {
+  color: var(--error-color);
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+/* ボタン */
+.submit-button,
+#search-school {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.submit-button:hover,
+#search-school:hover {
+  background-color: var(--primary-hover);
+}
+
+/* プログレスバー */
+.progress-container {
+  background-color: var(--bg-secondary);
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  margin: 1.5rem 0;
+}
+
+.progress-bar {
+  height: 0.5rem;
+  background-color: #e5e7eb;
+  border-radius: 0.25rem;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: var(--primary-color);
+  transition: width 0.3s ease;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 640px) {
+  .container {
+    margin: 1rem;
+    padding: 1.25rem;
+  }
+
+  .form-navigation,
+  .section-header {
+    padding: 1rem;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  select,
+  textarea {
+    padding: 0.625rem;
+  }
+
+  .submit-button,
+  #search-school {
+    width: 100%;
+  }
+}
+/* これらのスタイルは新しいCSSの最後に追加してください */
+.conditional-field {
+    display: none;
+}
+
+.conditional-field.show {
+    display: block;
+}
+/* ポップアップ関連のスタイル - 新しいCSSの最後に追加 */
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    z-index: 1000;
+    width: 90%;
+    max-width: 500px;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 999;
+}
+
+.popup h2 {
+    margin-top: 0;
+    color: #2c3e50;
+    font-size: 24px;
+}
+
+.popup input {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.popup ul {
+    list-style-type: none;
+    padding: 0;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #eee;
+    border-radius: 4px;
+}
+
+.popup li {
+    cursor: pointer;
+    padding: 10px;
+    transition: background-color 0.2s;
+}
+
+.popup li:hover {
+    background-color: #f0f0f0;
+}
+
+/* 同意セクション用のスタイル */
+.consent-container {
+    background-color: var(--bg-secondary);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    margin: 2rem 0;
+}
+
+.consent-text {
+    background-color: var(--bg-primary);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+}
+
+.consent-text p {
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.consent-text ul {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.consent-text li {
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+/* レジリエンス質問用のスタイル */
+.question-item {
+    background-color: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.question-item p {
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+/* アンケートセクション全体のスタイル */
+.survey-section {
+    background-color: var(--bg-primary);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    margin-top: 2rem;
+}
+
+/* プログレスバーのスタイル改善 */
+.progress-bar-container {
+    background-color: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    margin: 2rem 0;
+}
+
+.progress-text {
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+}
+
+.progress-track {
+    background-color: var(--border-color);
+    height: 0.5rem;
+    border-radius: 0.25rem;
+    overflow: hidden;
+}
+
+.progress-fill {
+    background-color: var(--primary-color);
+    height: 100%;
+    transition: width 0.3s ease;
+}
+
     </style>
 </head>
 <body>
     <div class="container">
         <h1>全国高校生MY PROJECT AWARD 2024 参加登録フォーム</h1>
+
+        <!-- フォームナビゲーション -->
+        <div class="form-navigation">
+            <h3>フォームの流れ</h3>
+            <ol class="navigation-steps">
+                <li class="active">基本情報の入力</li>
+                <li>参加形態の選択</li>
+                <li>学校情報の登録</li>
+                <li>調査協力の同意</li>
+                <li>アンケートへの回答</li>
+            </ol>
+        </div>
+
         <form id="registrationForm">
-            <!-- 役割選択を最初に移動 -->
-            <div class="form-group">
-                <label class="required-label">ご自身の参加について、当てはまるものをご回答ください</label>
-                <div class="radio-group">
-                    <label>
-                        <input type="radio" id="role1" name="role" value="プロジェクト代表者" required>
-                        ①プロジェクト代表者（エントリーフォームを提出いただいた方）
-                    </label>
-                    <label>
-                        <input type="radio" id="role2" name="role" value="参加メンバー">
-                        ②プロジェクト代表者以外で、地域Summitに参加するプロジェクトメンバー
-                    </label>
-                    <label>
-                        <input type="radio" id="role3" name="role" value="不参加メンバー">
-                        ③プロジェクト代表者以外で、地域Summitには参加しないプロジェクトメンバー
-                    </label>
-                </div>
+           <!-- 役割選択 -->
+           <div class="form-group">
+            <label class="required-label">ご自身の参加について、当てはまるものをご回答ください</label>
+            <div class="radio-group">
+                <label>
+                    <input type="radio" id="role1" name="role" value="プロジェクト代表者" required>
+                    ①プロジェクト代表者（エントリーフォームを提出いただいた方）
+                </label>
+                <label>
+                    <input type="radio" id="role2" name="role" value="参加メンバー">
+                    ②プロジェクト代表者以外で、地域Summitに参加するプロジェクトメンバー
+                </label>
+                <label>
+                    <input type="radio" id="role3" name="role" value="不参加メンバー">
+                    ③プロジェクト代表者以外で、地域Summitには参加しないプロジェクトメンバー
+                </label>
             </div>
+        </div>
 
-            <!-- Summit選択 -->
-            <div class="form-group">
-                <label for="summit" class="required-label">参加する地域summitをお答えください。</label>
-                <select id="summit" name="summit" required>
-                    <option value="">選択してください</option>
-                    <option value="青森県Summit">2/1（土）青森県Summit</option>
-                    <option value="岩手県Summit">12/22（日）岩手県Summit</option>
-                    <option value="宮城県Summit">2/1（土）宮城県Summit</option>
-                    <option value="山形県Summit">2/2（日）山形県Summit</option>
-                    <option value="福島県Summit">1/25（土）福島県Summit</option>
-                    <option value="岐阜県Summit">1/12（日）岐阜県Summit</option>
-                    <option value="愛知県Summit">1/13（月・祝）愛知県Summit</option>
-                    <option value="福井県Summit">1/13（月・祝）福井県Summit</option>
-                    <option value="京都府Summit">1/11（土）京都府Summit</option>
-                    <option value="広島県Summit">2/2（日）広島県Summit</option>
-                    <option value="長崎県Summit">1/26（日）長崎県Summit</option>
-                    <option value="宮崎県Summit">12/22（日）宮崎県Summit</option>
-                    <option value="沖縄県Summit">1/25（土）＆2/8（土）沖縄県Summit</option>
-                    <option value="予備Summit">12/26（木）上記地域の予備Summit</option>
-                    <option value="オンラインSummitA1">12/26（木）18時30分-21時30分 オンラインSummitA</option>
-                    <option value="オンラインSummitA2">12/27（金）18時30分-21時30分 オンラインSummitA</option>
-                    <option value="オンラインSummitA3">1/11（土）13時00分-16時00分 オンラインSummitA</option>
-                    <option value="オンラインSummitA4">1/11（土）18時30分-21時30分 オンラインSummitA</option>
-                    <option value="オンラインSummitA5">1/29（水）18時30分-21時30分 オンラインSummitA</option>
-                    <option value="オンラインSummitA6">2/1（土）13時00分-16時00分 オンラインSummitA</option>
-                    <option value="オンラインSummitB1">12/26（木）18時30分-21時30分 オンラインSummitB</option>
-                    <option value="オンラインSummitB2">12/27（金）18時30分-21時30分 オンラインSummitB</option>
-                    <option value="オンラインSummitB3">1/11（土）13時00分-16時00分 オンラインSummitB</option>
-                    <option value="オンラインSummitB4">1/11（土）18時30分-21時30分 オンラインSummitB</option>
-                    <option value="オンラインSummitB5">1/29（水）18時30分-21時30分 オンラインSummitB</option>
-                    <option value="オンラインSummitB6">2/1（土）13時00分-16時00分 オンラインSummitB</option>
-                </select>
-                <p class="help-text">エントリー時に選択したSummitで書類選考を行っているため、参加地域Summitの変更は原則不可となります。</p>
-            </div>
+        <!-- Summit選択 -->
+        <div class="form-group">
+            <label for="summit" class="required-label">参加する地域summitをお答えください。</label>
+            <select id="summit" name="summit" required>
+                <option value="">選択してください</option>
+                <option value="青森県Summit">2/1（土）青森県Summit</option>
+                <option value="岩手県Summit">12/22（日）岩手県Summit</option>
+                <option value="宮城県Summit">2/1（土）宮城県Summit</option>
+                <option value="山形県Summit">2/2（日）山形県Summit</option>
+                <option value="福島県Summit">1/25（土）福島県Summit</option>
+                <option value="岐阜県Summit">1/12（日）岐阜県Summit</option>
+                <option value="愛知県Summit">1/13（月・祝）愛知県Summit</option>
+                <option value="福井県Summit">1/13（月・祝）福井県Summit</option>
+                <option value="京都府Summit">1/11（土）京都府Summit</option>
+                <option value="広島県Summit">2/2（日）広島県Summit</option>
+                <option value="長崎県Summit">1/26（日）長崎県Summit</option>
+                <option value="宮崎県Summit">12/22（日）宮崎県Summit</option>
+                <option value="沖縄県Summit">1/25（土）＆2/8（土）沖縄県Summit</option>
+                <option value="予備Summit">12/26（木）上記地域の予備Summit</option>
+                <option value="オンラインSummitA1">12/26（木）18時30分-21時30分 オンラインSummitA</option>
+                <option value="オンラインSummitA2">12/27（金）18時30分-21時30分 オンラインSummitA</option>
+                <option value="オンラインSummitA3">1/11（土）13時00分-16時00分 オンラインSummitA</option>
+                <option value="オンラインSummitA4">1/11（土）18時30分-21時30分 オンラインSummitA</option>
+                <option value="オンラインSummitA5">1/29（水）18時30分-21時30分 オンラインSummitA</option>
+                <option value="オンラインSummitA6">2/1（土）13時00分-16時00分 オンラインSummitA</option>
+                <option value="オンラインSummitB1">12/26（木）18時30分-21時30分 オンラインSummitB</option>
+                <option value="オンラインSummitB2">12/27（金）18時30分-21時30分 オンラインSummitB</option>
+                <option value="オンラインSummitB3">1/11（土）13時00分-16時00分 オンラインSummitB</option>
+                <option value="オンラインSummitB4">1/11（土）18時30分-21時30分 オンラインSummitB</option>
+                <option value="オンラインSummitB5">1/29（水）18時30分-21時30分 オンラインSummitB</option>
+                <option value="オンラインSummitB6">2/1（土）13時00分-16時00分 オンラインSummitB</option>
+            </select>
+            <p class="help-text">エントリー時に選択したSummitで書類選考を行っているため、参加地域Summitの変更は原則不可となります。</p>
+        </div>
 
+        <!-- 基本情報 -->
+        <div class="form-group">
+            <label for="name" class="required-label">氏名（フルネーム）</label>
+            <input type="text" id="name" name="name" required>
+        </div>
 
-            <!-- 基本情報 -->
-            <div class="form-group">
-                <label for="name" class="required-label">氏名（フルネーム）</label>
-                <input type="text" id="name" name="name" required>
-            </div>
+        <div class="form-group">
+            <label for="project" class="required-label">プロジェクト/探究のタイトル</label>
+            <input type="text" id="project" name="project" required>
+        </div>
 
-            <div class="form-group">
-                <label for="project" class="required-label">プロジェクト/探究のタイトル</label>
-                <input type="text" id="project" name="project" required>
-            </div>
+        <div class="form-group">
+            <label for="email" class="required-label">メールアドレス</label>
+            <input type="email" id="email" name="email" required>
+            <p class="help-text">今後のご連絡、および「参加証明書」はこちらのメールアドレスに送付されます。</p>
+        </div>
 
-            <div class="form-group">
-                <label for="email" class="required-label">メールアドレス</label>
-                <input type="email" id="email" name="email" required>
-                <p class="help-text">今後のご連絡、および「参加証明書」はこちらのメールアドレスに送付されます。</p>
-            </div>
+        <div class="form-group">
+            <label for="email-confirm" class="required-label">メールアドレス（確認用）</label>
+            <input type="email" id="email-confirm" name="email-confirm" required>
+            <p class="help-text">確認のためコピーせずに、再度入力してください。</p>
+            <div class="error-message" id="email-error">メールアドレスが一致しません</div>
+        </div>
 
-            <div class="form-group">
-                <label for="email-confirm" class="required-label">メールアドレス（確認用）</label>
-                <input type="email" id="email-confirm" name="email-confirm" required>
-                <p class="help-text">確認のためコピーせずに、再度入力してください。</p>
-                <div class="error-message" id="email-error">メールアドレスが一致しません</div>
-            </div>
+        <div class="form-group">
+            <label for="phone" class="required-label">電話番号</label>
+            <input type="tel" id="phone" name="phone" required>
+        </div>
 
-            <div class="form-group">
-                <label for="phone" class="required-label">電話番号</label>
-                <input type="tel" id="phone" name="phone" required>
-            </div>
+        <!-- 学校情報 -->
+        <div class="form-group">
+            <label for="school-type" class="required-label">学校種別</label>
+            <select id="school-type" name="school-type" required>
+                <option value="">選択してください</option>
+                <option value="国立">国立（独立行政法人含む）</option>
+                <option value="公立">公立</option>
+                <option value="私立">私立</option>
+                <option value="その他">その他（なしを含む）</option>
+            </select>
+        </div>
 
-            <!-- 学校情報 -->
-            <div class="form-group">
-                <label for="school-type" class="required-label">学校種別</label>
-                <select id="school-type" name="school-type" required>
-                    <option value="">選択してください</option>
-                    <option value="国立">国立（独立行政法人含む）</option>
-                    <option value="公立">公立</option>
-                    <option value="私立">私立</option>
-                    <option value="その他">その他（なしを含む）</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="school-prefecture" class="required-label">学校所在都道府県</label>
-                <select id="school-prefecture" name="school-prefecture" required>
-                    <option value="">選択してください</option>
-                    <option value="北海道">北海道</option>
-                    <option value="青森県">青森県</option>
-                    <option value="岩手県">岩手県</option>
-                    <option value="宮城県">宮城県</option>
-                    <option value="秋田県">秋田県</option>
-                    <option value="山形県">山形県</option>
-                    <option value="福島県">福島県</option>
-                    <option value="茨城県">茨城県</option>
-                    <option value="栃木県">栃木県</option>
-                    <option value="群馬県">群馬県</option>
-                    <option value="埼玉県">埼玉県</option>
-                    <option value="千葉県">千葉県</option>
-                    <option value="東京都">東京都</option>
-                    <option value="神奈川県">神奈川県</option>
-                    <option value="新潟県">新潟県</option>
-                    <option value="富山県">富山県</option>
-                    <option value="石川県">石川県</option>
-                    <option value="福井県">福井県</option>
-                    <option value="山梨県">山梨県</option>
-                    <option value="長野県">長野県</option>
-                    <option value="岐阜県">岐阜県</option>
-                    <option value="静岡県">静岡県</option>
-                    <option value="愛知県">愛知県</option>
-                    <option value="三重県">三重県</option>
-                    <option value="滋賀県">滋賀県</option>
-                    <option value="京都府">京都府</option>
-                    <option value="大阪府">大阪府</option>
-                    <option value="兵庫県">兵庫県</option>
-                    <option value="奈良県">奈良県</option>
-                    <option value="和歌山県">和歌山県</option>
-                    <option value="鳥取県">鳥取県</option>
-                    <option value="島根県">島根県</option>
-                    <option value="岡山県">岡山県</option>
-                    <option value="広島県">広島県</option>
-                    <option value="山口県">山口県</option>
-                    <option value="徳島県">徳島県</option>
-                    <option value="香川県">香川県</option>
-                    <option value="愛媛県">愛媛県</option>
-                    <option value="高知県">高知県</option>
-                    <option value="福岡県">福岡県</option>
-                    <option value="佐賀県">佐賀県</option>
-                    <option value="長崎県">長崎県</option>
-                    <option value="熊本県">熊本県</option>
-                    <option value="大分県">大分県</option>
-                    <option value="宮崎県">宮崎県</option>
-                    <option value="鹿児島県">鹿児島県</option>
-                    <option value="沖縄県">沖縄県</option>
-                    <option value="その他">その他</option>
-                </select>
-            </div>
+        <div class="form-group">
+            <label for="school-prefecture" class="required-label">学校所在都道府県</label>
+            <select id="school-prefecture" name="school-prefecture" required>
+                <option value="">選択してください</option>
+              <!-- 都道府県オプションの続き -->
+            <script>
+                // 都道府県のセレクトボックスを動的に生成
+                const prefectures = [
+                    "北海道", "青森県", "岩手県", "宮城県", "秋田県", "山形県", "福島県",
+                    "茨城県", "栃木県", "群馬県", "埼玉県", "千葉県", "東京都", "神奈川県",
+                    "新潟県", "富山県", "石川県", "福井県", "山梨県", "長野県", "岐阜県",
+                    "静岡県", "愛知県", "三重県", "滋賀県", "京都府", "大阪府", "兵庫県",
+                    "奈良県", "和歌山県", "鳥取県", "島根県", "岡山県", "広島県", "山口県",
+                    "徳島県", "香川県", "愛媛県", "高知県", "福岡県", "佐賀県", "長崎県",
+                    "熊本県", "大分県", "宮崎県", "鹿児島県", "沖縄県"
+                ];
+                
+                const prefectureSelect = document.getElementById('school-prefecture');
+                prefectures.forEach(prefecture => {
+                    const option = document.createElement('option');
+                    option.value = prefecture;
+                    option.textContent = prefecture;
+                    prefectureSelect.appendChild(option);
+                });
+            </script>
 
             <div class="form-group">
                 <label for="school-name" class="required-label">高校名</label>
@@ -446,57 +606,812 @@
                     <p>・資料投影を行う方（代表者の方など）に関しては、安定した接続環境とタブレットもしくはPCでの接続を推奨しています。</p>
                 </div>
 
-                <div class="form-group">
-                    <label for="participation-style" class="required-label">地域Summit当日に当てはまる状況</label>
-                    <select id="participation-style" name="participation-style">
-                        <option value="">選択してください</option>
-                        <option value="集合">当日は1ヶ所に集まって接続する予定</option>
-                        <option value="分散">当日は各自バラバラの場所で接続する予定</option>
-                        <option value="その他">その他</option>
-                    </select>
-                </div>
+<!-- オンライン参加セクションの続き -->
+<div class="form-group">
+    <label for="participation-style" class="required-label">地域Summit当日に当てはまる状況</label>
+    <select id="participation-style" name="participation-style">
+        <option value="">選択してください</option>
+        <option value="集合">当日は1ヶ所に集まって接続する予定</option>
+        <option value="分散">当日は各自バラバラの場所で接続する予定</option>
+        <option value="その他">その他</option>
+    </select>
+</div>
 
-                <div class="form-group">
-                    <label for="connection-status" class="required-label">通信環境と機器について</label>
-                    <select id="connection-status" name="connection-status">
-                        <option value="">選択してください</option>
-                        <option value="pc-wifi">代表者が通信環境（wifi）と機器（PCもしくはタブレット）を用意できる</option>
-                        <option value="phone-wifi">代表者が通信環境（wifi）と機器（スマートフォンのみ）を用意できる</option>
-                        <option value="pc-no-wifi">代表者が通信環境（wifi）を用意できない※機器（PCもしくはタブレット）は用意できる</option>
-                        <option value="phone-no-wifi">代表者が通信環境（wifi）を用意できない※機器（スマートフォンのみ）は用意できる</option>
-                        <option value="nothing">代表者が通信環境（wifi）や機器を用意できない</option>
-                        <option value="その他">その他</option>
-                    </select>
-                </div>
+<div class="form-group">
+    <label for="connection-status" class="required-label">通信環境と機器について</label>
+    <select id="connection-status" name="connection-status">
+        <option value="">選択してください</option>
+        <option value="pc-wifi">代表者が通信環境（wifi）と機器（PCもしくはタブレット）を用意できる</option>
+        <option value="phone-wifi">代表者が通信環境（wifi）と機器（スマートフォンのみ）を用意できる</option>
+        <option value="pc-no-wifi">代表者が通信環境（wifi）を用意できない※機器（PCもしくはタブレット）は用意できる</option>
+        <option value="phone-no-wifi">代表者が通信環境（wifi）を用意できない※機器（スマートフォンのみ）は用意できる</option>
+        <option value="nothing">代表者が通信環境（wifi）や機器を用意できない</option>
+        <option value="その他">その他</option>
+    </select>
+</div>
 
-                <div class="form-group">
-                    <label for="equipment-rental" class="required-label">通信環境（wifi）/機器（タブレット）の貸出希望</label>
-                    <select id="equipment-rental" name="equipment-rental">
-                        <option value="不要">希望しない</option>
-                        <option value="希望">希望する</option>
-                    </select>
-                    <p class="help-text">原則、1PJにつき通信環境及び機器を1セットまで貸出をします。</p>
+<div class="form-group">
+    <label for="equipment-rental" class="required-label">通信環境（wifi）/機器（タブレット）の貸出希望</label>
+    <select id="equipment-rental" name="equipment-rental">
+        <option value="不要">希望しない</option>
+        <option value="希望">希望する</option>
+    </select>
+    <p class="help-text">原則、1PJにつき通信環境及び機器を1セットまで貸出をします。</p>
+</div>
+</div>
+
+<!-- 接続テストセクション -->
+<div id="connection-test-section" class="conditional-field">
+<div class="section-header">
+    <h2>接続テストの参加希望</h2>
+    <p class="help-text">
+        ・必ず、ご自身が参加されるサミットより前の日程をお選びください。<br>
+        ・希望多数の日程については順次募集を締め切ります。<br>
+        ・学校で日頃zoomなどのオンライン会議システムを使用していない方やPC等の操作に不安のある方はぜひご参加ください。<br>
+        ・メンバー全員が接続テストに参加する必要はありません。代表者のみの参加で構いません。<br>
+        ・接続テスト参加時は、できるだけ地域Sum当日と同じ環境での参加をお願いします。
+    </p>
+</div>
+<div class="checkbox-group" id="connection-test-dates">
+    <!-- JavaScriptで動的に生成 -->
+</div>
+</div>
+
+<!-- 調査協力の同意セクション -->
+<div class="section-header" style="margin-top: 40px;">
+<h2>調査協力についてのお願い</h2>
+</div>
+
+<div class="consent-container">
+<div class="consent-text">
+    <p>★探究学習やプロジェクト活動がより推進しやすくなる環境整備を一つの目的として調査を行っています。</p>
+    <p>ご協力のほど、なにとぞよろしくお願いいたします。ご協力いただける場合は、本アンケートの回答情報をNPO法人カタリバが下記の項目・目的にそって利用することについてのご承諾をお願いいたします。</p>
+    <p style="font-weight: bold;">【アンケートの所要時間：10-15分】</p>
+    <p>利用するデータの項目・利用目的等は以下となります。</p>
+    <hr>
+    <p style="font-weight: bold;">●利用するデータの項目</p>
+    <ul>
+        <li>氏名／生年月日／年齢／性別／所属学校名・卒業校等の学歴に関する情報／連絡先などのプロフィール情報／進路に関する情報</li>
+        <li>取り組んだマイプロジェクトの途中経過・成果物の状況及びマイプロジェクトアワードでのエントリー内容／発表内容</li>
+        <li>マイプロジェクト実施期間及びマイプロジェクトアワード参加前後に取得するアンケートの回答内容</li>
+        <li>マイプロジェクトおよびマイプロジェクトアワードに関してNPO法人カタリバが提供したサービス・教育プログラムの利用状況／内容</li>
+    </ul>
+    <p style="font-weight: bold;">●データの利用目的</p>
+    <ul>
+        <li>マイプロジェクトや関連する経験の検証・研究・レポート作成のための分析</li>
+        <li>調査内容をもとにした広報活動</li>
+        <li>上記に関連するインタビュー対象者の選定</li>
+    </ul>
+    <p>※事前のご本人の許可なく、個人の氏名等が公表されることはありません。</p>
+    <p style="font-weight: bold;">●データの利用期間</p>
+    <p>取得年度末日から10年間</p>
+    <p>※利用期間を過ぎた個人データは安全な方法で破棄いたします。</p>
+    <hr>
+    <p>いただいた個人情報を第三者へ提供することはありません。ただし、分析や発信のために、個人を特定できない形式でのデータの共同利用を他の研究協力機関や外部のメディアと行う場合があります。</p>
+    <p>また、分析に利用するデータは、個人を特定できない形式にしたうえで、研究レポートとしてwebや紙面上で公表をする予定です。</p>
+    <p>なお、ご承諾をいただいた方の中から、回答内容等から総合的に判断しインタビューをご依頼する場合があります。インタビューをお引き受けいただくかは任意となります。</p>
+</div>
+
+<div class="radio-group">
+    <label>
+        <input type="radio" name="survey-consent" value="agree" required>
+        上記の内容に同意し、アンケートに協力する
+    </label>
+    <label>
+        <input type="radio" name="survey-consent" value="disagree">
+        同意しない
+    </label>
+</div>
+</div>
+
+<!-- アンケートセクション -->
+<div id="survey-section" class="conditional-field">
+    <div class="section-header">
+        <h2>アンケート調査</h2>
+    </div>
+
+    <!-- プロジェクトの取り組み期間 -->
+    <div class="form-group">
+        <label class="required-label">マイプロジェクト/探究に取り組んでいた／取り組んでいる期間を記入してください</label>
+        <input type="text" name="project_period" placeholder="例：2023年4月～2024年2月" required>
+    </div>
+
+    <!-- プロジェクトの領域 -->
+    <div class="form-group">
+        <label class="required-label">マイプロジェクト/探究の領域（複数選択可）</label>
+        <div class="checkbox-group">
+            <label><input type="checkbox" name="project_field" value="地域活性">地域活性</label>
+            <label><input type="checkbox" name="project_field" value="まちづくり">まちづくり</label>
+            <label><input type="checkbox" name="project_field" value="防災・復興">防災・復興</label>
+            <label><input type="checkbox" name="project_field" value="法・政治・経済">法・政治・経済</label>
+            <label><input type="checkbox" name="project_field" value="IT・テクノロジー">IT・テクノロジー</label>
+            <label><input type="checkbox" name="project_field" value="国際">国際</label>
+            <label><input type="checkbox" name="project_field" value="不平等の解消">不平等の解消</label>
+            <label><input type="checkbox" name="project_field" value="貧困・飢餓問題">貧困・飢餓問題</label>
+            <label><input type="checkbox" name="project_field" value="農林・水産・畜産">農林・水産・畜産</label>
+            <label><input type="checkbox" name="project_field" value="環境・エネルギー問題">環境・エネルギー問題</label>
+            <label><input type="checkbox" name="project_field" value="保育・教育">保育・教育</label>
+            <label><input type="checkbox" name="project_field" value="アート">アート</label>
+            <label><input type="checkbox" name="project_field" value="スポーツ">スポーツ</label>
+            <label><input type="checkbox" name="project_field" value="福祉">福祉</label>
+            <label><input type="checkbox" name="project_field" value="看護・医療">看護・医療</label>
+            <label><input type="checkbox" name="project_field" value="その他">その他</label>
+        </div>
+    </div>
+
+    <!-- メンバー数 -->
+    <div class="form-group">
+        <label class="required-label">マイプロジェクト/探究に取り組んでいるメンバーの数（記入者自身も含む人数）</label>
+        <input type="number" name="member_count" min="1" required>
+    </div>
+
+    <!-- プロジェクト内の役割 -->
+    <div class="form-group">
+        <label class="required-label">マイプロジェクト/探究の中の役割</label>
+        <select name="project_role" required>
+            <option value="">選択してください</option>
+            <option value="全体リーダー">マイプロジェクト/探究全体のリーダー</option>
+            <option value="部分リーダー">一部役割のリーダー</option>
+            <option value="メンバー">マイプロジェクト/探究メンバー</option>
+        </select>
+    </div>
+
+    <!-- 進路関連 -->
+    <div class="form-group">
+        <label class="required-label">志望している・または決定した進路①</label>
+        <select name="future_path" required>
+            <option value="">選択してください</option>
+            <option value="就職">就職</option>
+            <option value="4年生大学">4年生大学</option>
+            <option value="専門/短大">専門/短大</option>
+            <option value="その他">その他</option>
+            <option value="無回答">無回答</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>志望先・または決定した進路②（具体的な進路）</label>
+        <input type="text" name="specific_path" placeholder="具体的な進路をご記入ください">
+    </div>
+
+    <div class="form-group">
+        <label class="required-label">志望先・または決定した進路③（ステータス）</label>
+        <select name="path_status" required>
+            <option value="">選択してください</option>
+            <option value="決定">上記が決定している</option>
+            <option value="志望">上記を志望している</option>
+            <option value="無回答">無回答</option>
+        </select>
+    </div>
+
+   <!-- 進路への影響 -->
+   <div class="form-group">
+    <label class="required-label">マイプロジェクト/探究の経験が進路選択に役立ちましたか？</label>
+    <div class="radio-group">
+        <label><input type="radio" name="career_impact" value="4" required>とてもそう思う</label>
+        <label><input type="radio" name="career_impact" value="3">そう思う</label>
+        <label><input type="radio" name="career_impact" value="2">あまりそう思わない</label>
+        <label><input type="radio" name="career_impact" value="1">そう思わない</label>
+    </div>
+</div>
+
+<!-- 活動時間 -->
+<div class="form-group">
+    <label class="required-label">1週間の平均活動時間（マイプロジェクト/探究に使っている時間）</label>
+    <select name="weekly_hours" required>
+        <option value="">選択してください</option>
+        <option value="1">1時間未満</option>
+        <option value="2">1時間以上2時間未満</option>
+        <option value="3">2時間以上3時間未満</option>
+        <option value="4">3時間以上4時間未満</option>
+        <option value="5">4時間以上5時間未満</option>
+        <option value="6">5時間以上</option>
+    </select>
+</div>
+
+<!-- 活動時間帯 -->
+<div class="form-group">
+    <label class="required-label">おもにどんな時間を使ってマイプロジェクト/探究に取り組みましたか？（複数選択可）</label>
+    <div class="checkbox-group">
+        <label><input type="checkbox" name="activity_time" value="総合的な探究の時間">学校の授業（総合的な探究の時間）</label>
+        <label><input type="checkbox" name="activity_time" value="その他の授業">学校の授業（上記以外の時間）</label>
+        <label><input type="checkbox" name="activity_time" value="放課後">平日の放課後</label>
+        <label><input type="checkbox" name="activity_time" value="休日">休日</label>
+        <label><input type="checkbox" name="activity_time" value="部活動">部活動</label>
+        <label><input type="checkbox" name="activity_time" value="委員会活動">委員会活動</label>
+        <label><input type="checkbox" name="activity_time" value="その他">その他</label>
+    </div>
+</div>
+
+<!-- 実施活動 -->
+<div class="form-group">
+    <label class="required-label">マイプロジェクト/探究に取り組む際に、実施している・したことをすべて選んでください</label>
+    <div class="checkbox-group">
+        <label><input type="checkbox" name="activities" value="テーマ設定">テーマ・目標の設定（例：「食品ロスを減らすための方法を探る」）</label>
+        <label><input type="checkbox" name="activities" value="情報収集">情報収集（文献・ネット）（例: 「○○市の食品ロスに関する調査レポートを読む」）</label>
+        <label><input type="checkbox" name="activities" value="実地調査">実地調査（インタビュー・アンケート・フィールドワーク・実験）（例: 「地域の食品ロスに関するアンケートを行う」）</label>
+        <label><input type="checkbox" name="activities" value="実践">企画したことの実践・実行（例: 「家庭での食品ロスを減らすためのアプリの試作品を開発」）</label>
+    </div>
+</div>
+
+<!-- 協力者 -->
+<div class="form-group">
+    <label class="required-label">マイプロジェクト/探究に相談や協力、あるいは助言してくれた人を教えてください（複数選択可）</label>
+    <div class="checkbox-group">
+        <label><input type="checkbox" name="supporters" value="いない">いない</label>
+        <label><input type="checkbox" name="supporters" value="担任">教員（学級担任）</label>
+        <label><input type="checkbox" name="supporters" value="管理職">教員（校長・教頭）</label>
+        <label><input type="checkbox" name="supporters" value="探究担当">教員（総合的な探究 担当）</label>
+        <label><input type="checkbox" name="supporters" value="部活顧問">教員（部活動の顧問）</label>
+        <label><input type="checkbox" name="supporters" value="その他教員">教員（上記以外）</label>
+        <label><input type="checkbox" name="supporters" value="コーディネーター">コーディネーター</label>
+        <label><input type="checkbox" name="supporters" value="保護者">保護者/親戚</label>
+        <label><input type="checkbox" name="supporters" value="地域大学">地域の大学関係者</label>
+        <label><input type="checkbox" name="supporters" value="地域外大学">地域外の大学関係者</label>
+        <label><input type="checkbox" name="supporters" value="地域企業">地域の企業の方</label>
+        <label><input type="checkbox" name="supporters" value="地域外企業">地域外の企業の方</label>
+        <label><input type="checkbox" name="supporters" value="地域行政">地域の行政の方</label>
+        <label><input type="checkbox" name="supporters" value="地域外行政">地域外の行政の方</label>
+    </div>
+</div>
+
+<!-- 授業への取り組み -->
+<div class="form-group">
+    <label class="required-label">マイプロジェクト/探究を授業（総合的な探究の時間）で取り組む際は、意欲的・前向きに取り組むことができていますか？</label>
+    <div class="radio-group">
+        <label><input type="radio" name="class_motivation" value="4" required>強く思う</label>
+        <label><input type="radio" name="class_motivation" value="3">まあ思う</label>
+        <label><input type="radio" name="class_motivation" value="2">あまり思わない</label>
+        <label><input type="radio" name="class_motivation" value="1">思わない</label>
+    </div>
+</div>
+
+<!-- 成長実感 -->
+<div class="form-group">
+    <label class="required-label">マイプロジェクト/探究に授業で取り組む中で、自身の成長や学びの実感を得ることができていますか？</label>
+    <div class="radio-group">
+        <label><input type="radio" name="growth_feeling" value="4" required>強く思う</label>
+        <label><input type="radio" name="growth_feeling" value="3">まあ思う</label>
+        <label><input type="radio" name="growth_feeling" value="2">あまり思わない</label>
+        <label><input type="radio" name="growth_feeling" value="1">思わない</label>
+    </div>
+</div>
+
+<!-- 困難点 -->
+<div class="form-group">
+    <label class="required-label">マイプロジェクト/探究を進める中で困ったことを教えてください</label>
+    <textarea name="difficulties" rows="4" required></textarea>
+</div>
+
+<!-- 人生への有用性 -->
+<div class="form-group">
+    <label class="required-label">マイプロジェクト/探究の経験は、今後の人生に役立つと思いますか？</label>
+    <div class="radio-group">
+        <label><input type="radio" name="life_usefulness" value="4" required>強く思う</label>
+        <label><input type="radio" name="life_usefulness" value="3">まあ思う</label>
+        <label><input type="radio" name="life_usefulness" value="2">あまり思わない</label>
+        <label><input type="radio" name="life_usefulness" value="1">思わない</label>
+    </div>
+</div>
+
+<!-- 理由 -->
+<div class="form-group">
+    <label class="required-label">上記の回答理由を具体的にお答えください</label>
+    <textarea name="usefulness_reason" rows="4" required></textarea>
+</div>
+
+<!-- 身についた力 -->
+<div class="form-group">
+    <label class="required-label">マイプロジェクト/探究の経験を通して、具体的にどのような力が身についたと思いますか？（複数選択可）</label>
+    <div class="checkbox-group">
+        <label><input type="checkbox" name="acquired_skills" value="主体性">主体性（物事に進んで取り組む力）</label>
+        <label><input type="checkbox" name="acquired_skills" value="働きかけ力">働きかけ力（他人に働きかけ巻き込む力）</label>
+        <label><input type="checkbox" name="acquired_skills" value="実行力">実行力（目的を設定し確実に行動する力）</label>
+        <label><input type="checkbox" name="acquired_skills" value="課題発見力">課題発見力（現状を分析し目的や課題を明らかにする力）</label>
+        <label><input type="checkbox" name="acquired_skills" value="計画力">計画力（課題の解決に向けたプロセスを明らかにし準備する力）</label>
+        <label><input type="checkbox" name="acquired_skills" value="創造力">創造力（新しい価値を生み出す力）</label>
+        <label><input type="checkbox" name="acquired_skills" value="発信力">発信力（自分の意見をわかりやすく伝える力）</label>
+        <label><input type="checkbox" name="acquired_skills" value="傾聴力">傾聴力（相手の意見を丁寧に聴く力）</label>
+        <label><input type="checkbox" name="acquired_skills" value="柔軟性">柔軟性（意見の違いや立場の違いを理解する力）</label>
+        <label><input type="checkbox" name="acquired_skills" value="状況把握力">状況把握力（自分と周囲の人々や物事との関係性を理解する力）</label>
+        <label><input type="checkbox" name="acquired_skills" value="規律性">規律性（社会のルールや人との約束を守る力）</label>
+        <label><input type="checkbox" name="acquired_skills" value="ストレスコントロール">ストレスコントロール力（ストレスの発生源に対応する力）</label>
+        <label><input type="checkbox" name="acquired_skills" value="振り返る力">起きたことや自分自身を振り返る力</label>
+    </div>
+</div>
+
+<!-- 社会貢献意識 -->
+<div class="form-group">
+    <label class="required-label">マイプロジェクト/探究の経験を通して、社会に役立つこと・社会のためになることをしたいと思うようになりましたか？</label>
+    <div class="radio-group">
+        <label><input type="radio" name="social_contribution" value="experience_changed" required>マイプロの経験でそう思うようになった</label>
+        <label><input type="radio" name="social_contribution" value="slightly_changed">少しそう思うようになった</label>
+        <label><input type="radio" name="social_contribution" value="no_change">あまり変わらない</label>
+        <label><input type="radio" name="social_contribution" value="no_change_at_all">全く変わらない</label>
+        <label><input type="radio" name="social_contribution" value="already_thought">もともとそう思っていた</label>
+    </div>
+</div>
+
+<!-- 地域貢献意識 -->
+<div class="form-group">
+    <label class="required-label">マイプロジェクト/探究の経験を通して、地域に役立つこと・地域のためになることをしたいと思うようになりましたか？</label>
+    <div class="radio-group">
+        <label><input type="radio" name="local_contribution" value="experience_changed" required>マイプロの経験でそう思うようになった</label>
+        <label><input type="radio" name="local_contribution" value="slightly_changed">少しそう思うようになった</label>
+        <label><input type="radio" name="local_contribution" value="no_change">あまり変わらない</label>
+        <label><input type="radio" name="local_contribution" value="no_change_at_all">全く変わらない</label>
+        <label><input type="radio" name="local_contribution" value="already_thought">もともとそう思っていた</label>
+    </div>
+</div>
+
+<!-- 未来への影響力 -->
+<div class="form-group">
+    <label class="required-label">マイプロジェクト/探究の経験を通して、自分が行動することで、未来を少しでも良くすることができるようになると思いましたか？</label>
+    <div class="radio-group">
+        <label><input type="radio" name="future_impact" value="experience_changed" required>マイプロの経験でそう思うようになった</label>
+        <label><input type="radio" name="future_impact" value="slightly_changed">少しそう思うようになった</label>
+        <label><input type="radio" name="future_impact" value="no_change">あまり変わらない</label>
+        <label><input type="radio" name="future_impact" value="no_change_at_all">全く変わらない</label>
+        <label><input type="radio" name="future_impact" value="already_thought">もともとそう思っていた</label>
+    </div>
+</div>
+
+<!-- 次世代への責任 -->
+<div class="form-group">
+    <label class="required-label">マイプロジェクト/探究の経験を通して、自分の人生も、次の世代への責任を負っていると思うようになりましたか？</label>
+    <div class="radio-group">
+        <label><input type="radio" name="next_generation" value="experience_changed" required>マイプロの経験でそう思うようになった</label>
+        <label><input type="radio" name="next_generation" value="slightly_changed">少しそう思うようになった</label>
+        <label><input type="radio" name="next_generation" value="no_change">あまり変わらない</label>
+        <label><input type="radio" name="next_generation" value="no_change_at_all">全く変わらない</label>
+        <label><input type="radio" name="next_generation" value="already_thought">もともとそう思っていた</label>
+    </div>
+</div>
+
+<!-- 重要課題認識 -->
+<div class="form-group">
+    <label class="required-label">マイプロジェクト/探究の経験を通して、これからの社会を考えたときに重要だと感じるようになった事項を下記からすべて教えてください</label>
+    <div class="checkbox-group">
+        <label><input type="checkbox" name="important_issues" value="環境保全">環境保全</label>
+        <label><input type="checkbox" name="important_issues" value="IT・テクノロジー">IT・テクノロジーの活用</label>
+        <label><input type="checkbox" name="important_issues" value="地域社会">活気ある地域社会の実現</label>
+        <label><input type="checkbox" name="important_issues" value="ダイバーシティ">ダイバーシティ担保</label>
+        <label><input type="checkbox" name="important_issues" value="人権">人権の担保</label>
+        <label><input type="checkbox" name="important_issues" value="教育機会">教育機会の担保</label>
+        <label><input type="checkbox" name="important_issues" value="健康">健康の担保</label>
+        <label><input type="checkbox" name="important_issues" value="安全">安全の担保</label>
+    </div>
+</div>
+
+<!-- 生活の充実度 -->
+<div class="form-group">
+    <label class="required-label">マイプロジェクト/探究の経験を通して、日々の生活が楽しくなりましたか？</label>
+    <div class="radio-group">
+        <label><input type="radio" name="life_enjoyment" value="4" required>とてもそう思う</label>
+        <label><input type="radio" name="life_enjoyment" value="3">そう思う</label>
+        <label><input type="radio" name="life_enjoyment" value="2">あまりそう思わない</label>
+        <label><input type="radio" name="life_enjoyment" value="1">そう思わない</label>
+    </div>
+</div>
+
+<!-- 学習意欲 -->
+<div class="form-group">
+    <label class="required-label">マイプロジェクト/探究の経験を通して、自ら学ぶ意欲が高まりましたか？</label>
+    <div class="radio-group">
+        <label><input type="radio" name="learning_motivation" value="4" required>とてもそう思う</label>
+        <label><input type="radio" name="learning_motivation" value="3">そう思う</label>
+        <label><input type="radio" name="learning_motivation" value="2">あまりそう思わない</label>
+        <label><input type="radio" name="learning_motivation" value="1">そう思わない</label>
+    </div>
+</div>
+
+<!-- 学習意欲の理由 -->
+<div class="form-group">
+    <label class="required-label">どのような経験を通してそう感じるようになりましたか？</label>
+    <textarea name="motivation_reason" rows="4" required></textarea>
+</div>
+
+<!-- レジリエンス関連の質問群 -->
+<div class="form-group">
+    <div class="section-header">
+        <h3>自己評価に関する質問</h3>
+        <p class="help-text">以下の項目について、あなたにどの程度あてはまるかお答えください。</p>
+    </div>
+
+    <!-- 進捗バー -->
+    <div class="progress-bar-container">
+        <div class="progress-text">回答進捗: <span class="progress-count">0</span>/34問</div>
+        <div class="progress-track">
+            <div class="progress-fill"></div>
+        </div>
+    </div>
+
+    <div class="resilience-questions">
+        <!-- レジリエンス質問1 -->
+        <div class="question-item">
+            <p>自身が所属している組織に新しく入ったメンバーと一緒に作業することにためらうことはない</p>
+            <div class="radio-group">
+                <label><input type="radio" name="resilience_1" value="4" required>非常にあてはまる</label>
+                <label><input type="radio" name="resilience_1" value="3">かなりあてはまる</label>
+                <label><input type="radio" name="resilience_1" value="2">あまりあてはまらない</label>
+                <label><input type="radio" name="resilience_1" value="1">全くあてはまらない</label>
+            </div>
+        </div>
+
+        <!-- レジリエンス質問2 -->
+        <div class="question-item">
+            <p>困ったことがあったら周りの人に援助を求めることができる</p>
+            <div class="radio-group">
+                <label><input type="radio" name="resilience_2" value="4" required>非常にあてはまる</label>
+                <label><input type="radio" name="resilience_2" value="3">かなりあてはまる</label>
+                <label><input type="radio" name="resilience_2" value="2">あまりあてはまらない</label>
+                <label><input type="radio" name="resilience_2" value="1">全くあてはまらない</label>
+            </div>
+        </div>
+
+        <!-- レジリエンス質問3 -->
+        <div class="question-item">
+            <p>自分に任せられたことで何か問題が起きても、自分なりの方法で乗り越えることができる</p>
+            <div class="radio-group">
+                <label><input type="radio" name="resilience_3" value="4" required>非常にあてはまる</label>
+                <label><input type="radio" name="resilience_3" value="3">かなりあてはまる</label>
+                <label><input type="radio" name="resilience_3" value="2">あまりあてはまらない</label>
+                <label><input type="radio" name="resilience_3" value="1">全くあてはまらない</label>
+            </div>
+        </div>
+
+        <!-- レジリエンス質問4-34まで同様のパターンで続きます -->
+        <!-- スペースの都合上、次のパートに続けさせていただきます -->
+<!-- レジリエンス質問4 -->
+<div class="question-item">
+    <p>困難なことでも前向きに取り組むことができる</p>
+    <div class="radio-group">
+        <label><input type="radio" name="resilience_4" value="4" required>非常にあてはまる</label>
+        <label><input type="radio" name="resilience_4" value="3">かなりあてはまる</label>
+        <label><input type="radio" name="resilience_4" value="2">あまりあてはまらない</label>
+        <label><input type="radio" name="resilience_4" value="1">全くあてはまらない</label>
+    </div>
+</div>
+
+<!-- レジリエンス質問5 -->
+<div class="question-item">
+    <p>自分に任せられたことをする際、できるだけよい方法をしっかり検討して取り組む方である</p>
+    <div class="radio-group">
+        <label><input type="radio" name="resilience_5" value="4" required>非常にあてはまる</label>
+        <label><input type="radio" name="resilience_5" value="3">かなりあてはまる</label>
+        <label><input type="radio" name="resilience_5" value="2">あまりあてはまらない</label>
+        <label><input type="radio" name="resilience_5" value="1">全くあてはまらない</label>
+    </div>
+</div>
+
+<!-- レジリエンス質問6-34まで、同じパターンで続きます。すべての質問を記載していきます -->
+
+<!-- レジリエンス質問6 -->
+<div class="question-item">
+    <p>うまくいくかわからない様な役割も受け入れることができる</p>
+    <div class="radio-group">
+        <label><input type="radio" name="resilience_6" value="4" required>非常にあてはまる</label>
+        <label><input type="radio" name="resilience_6" value="3">かなりあてはまる</label>
+        <label><input type="radio" name="resilience_6" value="2">あまりあてはまらない</label>
+        <label><input type="radio" name="resilience_6" value="1">全くあてはまらない</label>
+    </div>
+</div>
+
+<!-- レジリエンス質問7 -->
+<div class="question-item">
+    <p>あなたにとって、目標は確実に達成することができるものよりも難しいものがよい</p>
+    <div class="radio-group">
+        <label><input type="radio" name="resilience_7" value="4" required>非常にあてはまる</label>
+        <label><input type="radio" name="resilience_7" value="3">かなりあてはまる</label>
+        <label><input type="radio" name="resilience_7" value="2">あまりあてはまらない</label>
+        <label><input type="radio" name="resilience_7" value="1">全くあてはまらない</label>
+    </div>
+</div>
+
+<!-- レジリエンス質問8 -->
+<div class="question-item">
+    <p>自分が任されていたことでしんどいことがあると、それを続けていくことが難しい方である</p>
+    <div class="radio-group">
+        <label><input type="radio" name="resilience_8" value="4" required>非常にあてはまる</label>
+        <label><input type="radio" name="resilience_8" value="3">かなりあてはまる</label>
+        <label><input type="radio" name="resilience_8" value="2">あまりあてはまらない</label>
+        <label><input type="radio" name="resilience_8" value="1">全くあてはまらない</label>
+    </div>
+</div>
+
+<!-- レジリエンス質問9 -->
+<div class="question-item">
+    <p>環境の変化に適応できる方である</p>
+    <div class="radio-group">
+        <label><input type="radio" name="resilience_9" value="4" required>非常にあてはまる</label>
+        <label><input type="radio" name="resilience_9" value="3">かなりあてはまる</label>
+        <label><input type="radio" name="resilience_9" value="2">あまりあてはまらない</label>
+        <label><input type="radio" name="resilience_9" value="1">全くあてはまらない</label>
+    </div>
+</div>
+
+<!-- レジリエンス質問10 -->
+<div class="question-item">
+    <p>組織の変化や自分の役割の変化を受け入れることができる</p>
+    <div class="radio-group">
+        <label><input type="radio" name="resilience_10" value="4" required>非常にあてはまる</label>
+        <label><input type="radio" name="resilience_10" value="3">かなりあてはまる</label>
+        <label><input type="radio" name="resilience_10" value="2">あまりあてはまらない</label>
+        <label><input type="radio" name="resilience_10" value="1">全くあてはまらない</label>
+    </div>
+</div>
+
+<!-- レジリエンス質問11 -->
+<div class="question-item">
+    <p>周囲の変化に柔軟に対応できる方である</p>
+    <div class="radio-group">
+        <label><input type="radio" name="resilience_11" value="4" required>非常にあてはまる</label>
+        <label><input type="radio" name="resilience_11" value="3">かなりあてはまる</label>
+        <label><input type="radio" name="resilience_11" value="2">あまりあてはまらない</label>
+        <label><input type="radio" name="resilience_11" value="1">全くあてはまらない</label>
+    </div>
+</div>
+
+<!-- レジリエンス質問12 -->
+<div class="question-item">
+    <p>困ったとき、ふさぎこまないで次の手を考える</p>
+    <div class="radio-group">
+        <label><input type="radio" name="resilience_12" value="4" required>非常にあてはまる</label>
+        <label><input type="radio" name="resilience_12" value="3">かなりあてはまる</label>
+        <label><input type="radio" name="resilience_12" value="2">あまりあてはまらない</label>
+        <label><input type="radio" name="resilience_12" value="1">全くあてはまらない</label>
+    </div>
+</div>
+
+<!-- レジリエンス質問13 -->
+<div class="question-item">
+    <p>どんなことでも、たいていなんとかなりそうな気がする</p>
+    <div class="radio-group">
+        <label><input type="radio" name="resilience_13" value="4" required>非常にあてはまる</label>
+        <label><input type="radio" name="resilience_13" value="3">かなりあてはまる</label>
+        <label><input type="radio" name="resilience_13" value="2">あまりあてはまらない</label>
+        <label><input type="radio" name="resilience_13" value="1">全くあてはまらない</label>
+    </div>
+</div>
+
+<!-- レジリエンス質問14 -->
+<div class="question-item">
+    <p>人を笑わせるのが得意である</p>
+    <div class="radio-group">
+        <label><input type="radio" name="resilience_14" value="4" required>非常にあてはまる</label>
+        <label><input type="radio" name="resilience_14" value="3">かなりあてはまる</label>
+        <label><input type="radio" name="resilience_14" value="2">あまりあてはまらない</label>
+        <label><input type="radio" name="resilience_14" value="1">全くあてはまらない</label>
+    </div>
+</div>
+
+<!-- レジリエンス質問15 -->
+<div class="question-item">
+    <p>おもしろく話をすることが得意である</p>
+    <div class="radio-group">
+        <label><input type="radio" name="resilience_15" value="4" required>非常にあてはまる</label>
+        <label><input type="radio" name="resilience_15" value="3">かなりあてはまる</label>
+        <label><input type="radio" name="resilience_15" value="2">あまりあてはまらない</label>
+        <label><input type="radio" name="resilience_15" value="1">全くあてはまらない</label>
+    </div>
+</div>
+
+<!-- レジリエンス質問16 -->
+<div class="question-item">
+    <p>ユーモアを言うのが苦手である</p>
+    <div class="radio-group">
+        <label><input type="radio" name="resilience_16" value="4" required>非常にあてはまる</label>
+        <label><input type="radio" name="resilience_16" value="3">かなりあてはまる</label>
+        <label><input type="radio" name="resilience_16" value="2">あまりあてはまらない</label>
+        <label><input type="radio" name="resilience_16" value="1">全くあてはまらない</label>
+    </div>
+</div>
+
+<!-- レジリエンス質問17 -->
+<div class="question-item">
+    <p>自分から人と親しくなることが得意である</p>
+    <div class="radio-group">
+        <label><input type="radio" name="resilience_17" value="4" required>非常にあてはまる</label>
+        <label><input type="radio" name="resilience_17" value="3">かなりあてはまる</label>
+        <label><input type="radio" name="resilience_17" value="2">あまりあてはまらない</label>
+        <label><input type="radio" name="resilience_17" value="1">全くあてはまらない</label>
+    </div>
+</div>
+
+<!-- レジリエンス質問18 -->
+<div class="question-item">
+    <p>他の人と共感的に関わりあえる方である</p>
+    <div class="radio-group">
+        <label><input type="radio" name="resilience_18" value="4" required>非常にあてはまる</label>
+        <label><input type="radio" name="resilience_18" value="3">かなりあてはまる</label>
+        <label><input type="radio" name="resilience_18" value="2">あまりあてはまらない</label>
+        <label><input type="radio" name="resilience_18" value="1">全くあてはまらない</label>
+    </div>
+</div>
+
+<!-- レジリエンス質問19 -->
+<div class="question-item">
+    <p>相手に自分の感情を素直に表せる</p>
+    <div class="radio-group">
+        <label><input type="radio" name="resilience_19" value="4" required>非常にあてはまる</label>
+        <label><input type="radio" name="resilience_19" value="3">かなりあてはまる</label>
+        <label><input type="radio" name="resilience_19" value="2">あまりあてはまらない</label>
+        <label><input type="radio" name="resilience_19" value="1">全くあてはまらない</label>
+    </div>
+</div>
+
+<!-- レジリエンス質問20 -->
+<div class="question-item">
+    <p>交友関係が広く、社交的な方である</p>
+    <div class="radio-group">
+        <label><input type="radio" name="resilience_20" value="4" required>非常にあてはまる</label>
+        <label><input type="radio" name="resilience_20" value="3">かなりあてはまる</label>
+        <label><input type="radio" name="resilience_20" value="2">あまりあてはまらない</label>
+        <label><input type="radio" name="resilience_20" value="1">全くあてはまらない</label>
+    </div>
+</div>
+
+<!-- レジリエンス質問21 -->
+<div class="question-item">
+    <p>悩みがあるとき、他の人に相談している</p>
+    <div class="radio-group">
+        <label><input type="radio" name="resilience_21" value="4" required>非常にあてはまる</label>
+        <label><input type="radio" name="resilience_21" value="3">かなりあてはまる</label>
+        <label><input type="radio" name="resilience_21" value="2">あまりあてはまらない</label>
+        <label><input type="radio" name="resilience_21" value="1">全くあてはまらない</label>
+    </div>
+</div>
+
+<!-- レジリエンス質問22 -->
+<div class="question-item">
+    <p>いざという時のために、組織の中で影響力を持っている人とのコネクションを持とうとしている</p>
+    <div class="radio-group">
+        <label><input type="radio" name="resilience_22" value="4" required>非常にあてはまる</label>
+        <label><input type="radio" name="resilience_22" value="3">かなりあてはまる</label>
+        <label><input type="radio" name="resilience_22" value="2">あまりあてはまらない</label>
+        <label><input type="radio" name="resilience_22" value="1">全くあてはまらない</label>
+    </div>
+</div>
+
+<!-- レジリエンス質問23 -->
+<div class="question-item">
+    <p>新しいことや珍しいことが好きである</p>
+    <div class="radio-group">
+        <label><input type="radio" name="resilience_23" value="4" required>非常にあてはまる</label>
+        <label><input type="radio" name="resilience_23" value="3">かなりあてはまる</label>
+        <label><input type="radio" name="resilience_23" value="2">あまりあてはまらない</label>
+        <label><input type="radio" name="resilience_23" value="1">全くあてはまらない</label>
+    </div>
+</div>
+
+<!-- レジリエンス質問24 -->
+<div class="question-item">
+    <p>色々なことを知りたいと思っている</p>
+    <div class="radio-group">
+        <label><input type="radio" name="resilience_24" value="4" required>非常にあてはまる</label>
+        <label><input type="radio" name="resilience_24" value="3">かなりあてはまる</label>
+        <label><input type="radio" name="resilience_24" value="2">あまりあてはまらない</label>
+        <label><input type="radio" name="resilience_24" value="1">全くあてはまらない</label>
+    </div>
+</div>
+
+<!-- レジリエンス質問25 -->
+<div class="question-item">
+    <p>ものごとに対する興味や関心が強い方だ</p>
+    <div class="radio-group">
+        <label><input type="radio" name="resilience_25" value="4" required>非常にあてはまる</label>
+        <label><input type="radio" name="resilience_25" value="3">かなりあてはまる</label>
+        <label><input type="radio" name="resilience_25" value="2">あまりあてはまらない</label>
+        <label><input type="radio" name="resilience_25" value="1">全くあてはまらない</label>
+    </div>
+</div>
+
+<!-- レジリエンス質問26 -->
+<div class="question-item">
+    <p>色々なことにチャレンジするのが好きである</p>
+    <div class="radio-group">
+        <label><input type="radio" name="resilience_26" value="4" required>非常にあてはまる</label>
+        <label><input type="radio" name="resilience_26" value="3">かなりあてはまる</label>
+        <label><input type="radio" name="resilience_26" value="2">あまりあてはまらない</label>
+        <label><input type="radio" name="resilience_26" value="1">全くあてはまらない</label>
+    </div>
+</div>
+
+<!-- レジリエンス質問27 -->
+<div class="question-item">
+    <p>新しいことを学ぶ意欲をもっている</p>
+    <div class="radio-group">
+        <label><input type="radio" name="resilience_27" value="4" required>非常にあてはまる</label>
+        <label><input type="radio" name="resilience_27" value="3">かなりあてはまる</label>
+        <label><input type="radio" name="resilience_27" value="2">あまりあてはまらない</label>
+        <label><input type="radio" name="resilience_27" value="1">全くあてはまらない</label>
+    </div>
+</div>
+
+<!-- レジリエンス質問28 -->
+                        <div class="question-item">
+                            <p>自分に任せられたことは自分の力でやり遂げようと努力する</p>
+                            <div class="radio-group">
+                                <label><input type="radio" name="resilience_28" value="4" required>非常にあてはまる</label>
+                                <label><input type="radio" name="resilience_28" value="3">かなりあてはまる</label>
+                                <label><input type="radio" name="resilience_28" value="2">あまりあてはまらない</label>
+                                <label><input type="radio" name="resilience_28" value="1">全くあてはまらない</label>
+                            </div>
+                        </div>
+
+                        <!-- レジリエンス質問29 -->
+                        <div class="question-item">
+                            <p>自分の将来に希望をもっている</p>
+                            <div class="radio-group">
+                                <label><input type="radio" name="resilience_29" value="4" required>非常にあてはまる</label>
+                                <label><input type="radio" name="resilience_29" value="3">かなりあてはまる</label>
+                                <label><input type="radio" name="resilience_29" value="2">あまりあてはまらない</label>
+                                <label><input type="radio" name="resilience_29" value="1">全くあてはまらない</label>
+                            </div>
+                        </div>
+
+                        <!-- レジリエンス質問30 -->
+                        <div class="question-item">
+                            <p>あなたの将来の見通しは明るいと思う</p>
+                            <div class="radio-group">
+                                <label><input type="radio" name="resilience_30" value="4" required>非常にあてはまる</label>
+                                <label><input type="radio" name="resilience_30" value="3">かなりあてはまる</label>
+                                <label><input type="radio" name="resilience_30" value="2">あまりあてはまらない</label>
+                                <label><input type="radio" name="resilience_30" value="1">全くあてはまらない</label>
+                            </div>
+                        </div>
+
+                        <!-- レジリエンス質問31 -->
+                        <div class="question-item">
+                            <p>自分の将来にはきっといいことがあると思う</p>
+                            <div class="radio-group">
+                                <label><input type="radio" name="resilience_31" value="4" required>非常にあてはまる</label>
+                                <label><input type="radio" name="resilience_31" value="3">かなりあてはまる</label>
+                                <label><input type="radio" name="resilience_31" value="2">あまりあてはまらない</label>
+                                <label><input type="radio" name="resilience_31" value="1">全くあてはまらない</label>
+                            </div>
+                        </div>
+
+                        <!-- レジリエンス質問32 -->
+                        <div class="question-item">
+                            <p>自分には誇れるところがあまりないと思う</p>
+                            <div class="radio-group">
+                                <label><input type="radio" name="resilience_32" value="4" required>非常にあてはまる</label>
+                                <label><input type="radio" name="resilience_32" value="3">かなりあてはまる</label>
+                                <label><input type="radio" name="resilience_32" value="2">あまりあてはまらない</label>
+                                <label><input type="radio" name="resilience_32" value="1">全くあてはまらない</label>
+                            </div>
+                        </div>
+
+                        <!-- レジリエンス質問33 -->
+                        <div class="question-item">
+                            <p>思いやりを持って人と接している</p>
+                            <div class="radio-group">
+                                <label><input type="radio" name="resilience_33" value="4" required>非常にあてはまる</label>
+                                <label><input type="radio" name="resilience_33" value="3">かなりあてはまる</label>
+                                <label><input type="radio" name="resilience_33" value="2">あまりあてはまらない</label>
+                                <label><input type="radio" name="resilience_33" value="1">全くあてはまらない</label>
+                            </div>
+                        </div>
+
+                        <!-- レジリエンス質問34 -->
+                        <div class="question-item">
+                            <p>他人に対して親切なほうである</p>
+                            <div class="radio-group">
+                                <label><input type="radio" name="resilience_34" value="4" required>非常にあてはまる</label>
+                                <label><input type="radio" name="resilience_34" value="3">かなりあてはまる</label>
+                                <label><input type="radio" name="resilience_34" value="2">あまりあてはまらない</label>
+                                <label><input type="radio" name="resilience_34" value="1">全くあてはまらない</label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- 接続テストセクション -->
-            <div id="connection-test-section" class="conditional-field">
-                <div class="section-header">
-                    <h2>接続テストの参加希望</h2>
-                    <p class="help-text">
-                        ・必ず、ご自身が参加されるサミットより前の日程をお選びください。<br>
-                        ・希望多数の日程については順次募集を締め切ります。<br>
-                        ・学校で日頃zoomなどのオンライン会議システムを使用していない方やPC等の操作に不安のある方はぜひご参加ください。<br>
-                        ・メンバー全員が接続テストに参加する必要はありません。代表者のみの参加で構いません。<br>
-                        ・接続テスト参加時は、できるだけ地域Sum当日と同じ環境での参加をお願いします。
-                    </p>
-                </div>
-                <div class="checkbox-group" id="connection-test-dates">
-                    <!-- JavaScriptで動的に生成 -->
-                </div>
+            <!-- 送信ボタン -->
+            <div class="form-group submit-group">
+                <input type="submit" value="回答を送信する" class="submit-button">
             </div>
-
-            <input type="submit" value="送信">
         </form>
     </div>
 
@@ -508,252 +1423,30 @@
         <button id="school-search-button">検索</button>
         <ul id="school-search-results"></ul>
     </div>
-
-    <script>
-        // WebアプリのURL（現在のものを維持）
-        const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbwFYmJ7I_5fy5CJWEeLuJ-fha8nSclGNl50bTsnmfMQJimlvrO6GwW0_dKrQVzEWyBJ/exec';
-        let schools = [];
+</body>
+<script>
+    // WebアプリのURL設定
+    const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbwFYmJ7I_5fy5CJWEeLuJ-fha8nSclGNl50bTsnmfMQJimlvrO6GwW0_dKrQVzEWyBJ/exec';
+    let schools = [];
     
-        // フォーム送信処理
-        document.getElementById('registrationForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // 送信ボタンの状態を更新
-            const submitButton = this.querySelector('input[type="submit"]');
-            submitButton.disabled = true;
-            submitButton.value = '送信中...';
+    // DOMContentLoadedイベントリスナー
+    document.addEventListener('DOMContentLoaded', function() {
+        // 初期化処理
+        initializeFormValidation();
+        initializeConditionalDisplays();
+        generateConnectionTestDates();
+        initializeSchoolSearch();
+    });
     
-            try {
-                // フォームデータの収集
-                const formData = new FormData(this);
-                const jsonData = {};
-                
-                // FormDataの処理
-                formData.forEach((value, key) => {
-                    if (key === 'connection-test-slots') {
-                        // チェックボックスの値を配列として取得
-                        jsonData[key] = Array.from(
-                            document.querySelectorAll('input[name="connection-test-slots"]:checked')
-                        ).map(checkbox => checkbox.value);
-                    } else {
-                        jsonData[key] = value;
-                    }
-                });
+    // フォームバリデーションの初期化
+    function initializeFormValidation() {
+        const form = document.getElementById('registrationForm');
+        const emailInput = document.getElementById('email');
+        const emailConfirmInput = document.getElementById('email-confirm');
+        const emailError = document.getElementById('email-error');
     
-                // CORS制限を回避するためのフォーム送信
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = WEBAPP_URL;
-                form.target = '_blank'; // 新しいタブで開く（ブロックされない）
-    
-                // JSONデータをhidden inputとして追加
-                const hiddenField = document.createElement('input');
-                hiddenField.type = 'hidden';
-                hiddenField.name = 'payload';
-                hiddenField.value = JSON.stringify(jsonData);
-                form.appendChild(hiddenField);
-    
-                // フォームを一時的にドキュメントに追加して送信
-                document.body.appendChild(form);
-                form.submit();
-                document.body.removeChild(form);
-    
-                // 送信完了として扱う
-                setTimeout(() => {
-                    window.location.reload();
-                }, 3000);
-    
-            } catch (error) {
-                console.error('送信エラー:', error);
-                submitButton.disabled = false;
-                submitButton.value = '送信';
-            }
-        });
-    
-        // 学校検索のための非同期データ取得関数
-        async function fetchSchools() {
-            try {
-                const form = document.createElement('form');
-                form.method = 'GET';
-                form.action = WEBAPP_URL;
-                form.target = 'hidden-iframe';
-    
-                // 非表示のiframeを作成
-                const iframe = document.createElement('iframe');
-                iframe.name = 'hidden-iframe';
-                iframe.style.display = 'none';
-                document.body.appendChild(iframe);
-                document.body.appendChild(form);
-    
-                // GETリクエストを送信
-                form.submit();
-    
-                // レスポンスを待機
-                const response = await new Promise((resolve) => {
-                    iframe.onload = () => {
-                        try {
-                            const content = iframe.contentDocument.body.textContent;
-                            resolve(JSON.parse(content));
-                        } catch (error) {
-                            resolve([]);
-                        }
-                        document.body.removeChild(form);
-                        document.body.removeChild(iframe);
-                    };
-                });
-    
-                return response;
-            } catch (error) {
-                console.error('学校リストの取得に失敗しました:', error);
-                return [];
-            }
-        }
-    
-        // 高校検索関連の処理
-        const searchButton = document.getElementById('search-school');
-        const popup = document.getElementById('school-search-popup');
-        const overlay = document.getElementById('overlay');
-        const searchInput = document.getElementById('school-search-input');
-        const searchResults = document.getElementById('school-search-results');
-        const schoolNameInput = document.getElementById('school-name');
-        const schoolSearchButton = document.getElementById('school-search-button');
-    
-        function createOtherOption() {
-            const otherOption = document.createElement('li');
-            otherOption.textContent = 'その他（なしを含む）';
-            otherOption.addEventListener('click', function() {
-                schoolNameInput.value = 'その他（なしを含む）';
-                closePopup();
-            });
-            return otherOption;
-        }
-    
-        function closePopup() {
-            popup.style.display = 'none';
-            overlay.style.display = 'none';
-        }
-    
-        searchButton.addEventListener('click', function() {
-            popup.style.display = 'block';
-            overlay.style.display = 'block';
-            searchInput.focus();
-            
-            // 初期表示時は「その他」オプションのみ表示
-            searchResults.innerHTML = '';
-            searchResults.appendChild(createOtherOption());
-        });
-    
-        overlay.addEventListener('click', closePopup);
-    
-        schoolSearchButton.addEventListener('click', async function() {
-            if (schools.length === 0) {
-                await fetchSchools();
-            }
-    
-            const searchTerm = searchInput.value.toLowerCase();
-            const filteredSchools = schools.filter(school => 
-                school.toLowerCase().includes(searchTerm)
-            );
-            displayResults(filteredSchools);
-        });
-    
-        function displayResults(results) {
-            searchResults.innerHTML = '';
-            
-            if (results.length === 0) {
-                const noResults = document.createElement('li');
-                noResults.textContent = '該当する高校が見つかりません';
-                noResults.style.fontStyle = 'italic';
-                noResults.style.color = '#666';
-                searchResults.appendChild(noResults);
-            } else {
-                results.forEach(school => {
-                    const li = document.createElement('li');
-                    li.textContent = school;
-                    li.addEventListener('click', function() {
-                        schoolNameInput.value = school;
-                        closePopup();
-                    });
-                    searchResults.appendChild(li);
-                });
-            }
-    
-            // 「その他」オプションを常に最後に追加
-            searchResults.appendChild(createOtherOption());
-        }
-    
-        // 役割選択による条件分岐
-        document.querySelectorAll('input[name="role"]').forEach(radio => {
-            radio.addEventListener('change', function() {
-                const representativeSection = document.getElementById('representative-section');
-                if (this.value === 'プロジェクト代表者') {
-                    representativeSection.classList.add('show');
-                    // 必須項目の設定
-                    ['member-notification', 'participant-count', 'postal-code', 'address', 'address-type', 'delivery-phone'].forEach(id => {
-                        const element = document.getElementById(id);
-                        if (element) element.required = true;
-                    });
-                } else {
-                    representativeSection.classList.remove('show');
-                    // 必須項目の解除
-                    ['member-notification', 'participant-count', 'postal-code', 'address', 'address-type', 'delivery-phone'].forEach(id => {
-                        const element = document.getElementById(id);
-                        if (element) element.required = false;
-                    });
-                }
-            });
-        });
-    
-        // Summit選択による条件分岐
-        document.getElementById('summit').addEventListener('change', function() {
-            const summit = this.value;
-            const onlineSection = document.getElementById('online-participation-section');
-            const connectionTestSection = document.getElementById('connection-test-section');
-            const isOnline = summit.includes('オンライン');
-            
-            onlineSection.classList.toggle('show', isOnline);
-            connectionTestSection.classList.toggle('show', isOnline);
-    
-            // オンライン参加時の必須項目設定
-            ['participation-style', 'connection-status', 'equipment-rental'].forEach(id => {
-                const element = document.getElementById(id);
-                if (element) element.required = isOnline;
-            });
-        });
-    
-        // 接続テスト日程の動的生成
-        function generateConnectionTestDates() {
-            const dates = [
-                { date: '12/26', times: ['18:30-21:30'] },
-                { date: '12/27', times: ['18:30-21:30'] },
-                { date: '1/11', times: ['13:00-16:00', '18:30-21:30'] },
-                { date: '1/29', times: ['18:30-21:30'] },
-                { date: '2/1', times: ['13:00-16:00'] }
-            ];
-    
-            const container = document.getElementById('connection-test-dates');
-            container.innerHTML = ''; // Clear existing content
-    
-            dates.forEach(dateObj => {
-                dateObj.times.forEach(time => {
-                    const label = document.createElement('label');
-                    const input = document.createElement('input');
-                    input.type = 'checkbox';
-                    input.name = 'connection-test-slots';
-                    input.value = `${dateObj.date} ${time}`;
-                    label.appendChild(input);
-                    label.appendChild(document.createTextNode(` ${dateObj.date} ${time}`));
-                    container.appendChild(label);
-                });
-            });
-        }
-    
-        // メールアドレス確認のバリデーション
+        // メールアドレスの一致確認
         function validateEmails() {
-            const emailInput = document.getElementById('email');
-            const emailConfirmInput = document.getElementById('email-confirm');
-            const emailError = document.getElementById('email-error');
-    
             if (!emailInput.value || !emailConfirmInput.value) {
                 emailError.style.display = 'block';
                 emailError.textContent = 'メールアドレスを入力してください';
@@ -772,18 +1465,296 @@
             return true;
         }
     
-        // イベントリスナーの設定
-        document.addEventListener('DOMContentLoaded', function() {
-            const emailInput = document.getElementById('email');
-            const emailConfirmInput = document.getElementById('email-confirm');
-            
-            emailInput.addEventListener('input', validateEmails);
-            emailConfirmInput.addEventListener('input', validateEmails);
+        emailInput.addEventListener('input', validateEmails);
+        emailConfirmInput.addEventListener('input', validateEmails);
     
-            // 初期化処理
-            generateConnectionTestDates();
-            fetchSchools();
+        // フォーム送信時の処理
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (!validateEmails()) {
+                return;
+            }
+    
+            // 送信ボタンの状態を更新
+            const submitButton = this.querySelector('input[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.value = '送信中...';
+    
+            try {
+                // フォームデータの収集
+                const formData = new FormData(this);
+                const jsonData = {};
+                
+                // FormDataの処理
+                formData.forEach((value, key) => {
+                    if (key.includes('[]')) {
+                        // 配列データの処理
+                        const baseKey = key.replace('[]', '');
+                        if (!jsonData[baseKey]) {
+                            jsonData[baseKey] = [];
+                        }
+                        jsonData[baseKey].push(value);
+                    } else {
+                        jsonData[key] = value;
+                    }
+                });
+    
+                // チェックボックスグループの処理
+                const checkboxGroups = ['project_field', 'activity_time', 'acquired_skills', 'important_issues'];
+                checkboxGroups.forEach(groupName => {
+                    const checkedBoxes = Array.from(
+                        document.querySelectorAll(`input[name="${groupName}"]:checked`)
+                    ).map(cb => cb.value);
+                    if (checkedBoxes.length > 0) {
+                        jsonData[groupName] = checkedBoxes;
+                    }
+                });
+    
+                // 接続テスト日程の処理
+                const selectedDates = Array.from(
+                    document.querySelectorAll('input[name="connection-test-slots"]:checked')
+                ).map(checkbox => checkbox.value);
+                if (selectedDates.length > 0) {
+                    jsonData['connection_test_dates'] = selectedDates;
+                }
+    
+                // データ送信
+                const response = await submitFormData(jsonData);
+                
+                if (response.success) {
+                    alert('回答を送信しました。ありがとうございました。');
+                    window.location.reload();
+                } else {
+                    throw new Error('送信に失敗しました');
+                }
+    
+            } catch (error) {
+                console.error('送信エラー:', error);
+                alert('送信に失敗しました。もう一度お試しください。');
+                submitButton.disabled = false;
+                submitButton.value = '送信';
+            }
         });
-    </script>
-</body>
+    }
+    
+    // 条件分岐による表示制御の初期化
+    function initializeConditionalDisplays() {
+        // 役割選択による表示制御
+        document.querySelectorAll('input[name="role"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const representativeSection = document.getElementById('representative-section');
+                if (this.value === 'プロジェクト代表者') {
+                    representativeSection.classList.add('show');
+                    setRequiredFields(representativeSection, true);
+                } else {
+                    representativeSection.classList.remove('show');
+                    setRequiredFields(representativeSection, false);
+                }
+            });
+        });
+    
+        // Summit選択による表示制御
+        document.getElementById('summit').addEventListener('change', function() {
+            const summit = this.value;
+            const onlineSection = document.getElementById('online-participation-section');
+            const connectionTestSection = document.getElementById('connection-test-section');
+            const isOnline = summit.includes('オンライン');
+            
+            onlineSection.classList.toggle('show', isOnline);
+            connectionTestSection.classList.toggle('show', isOnline);
+            setRequiredFields(onlineSection, isOnline);
+        });
+    
+        // 同意による表示制御
+        document.querySelectorAll('input[name="survey-consent"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const surveySection = document.getElementById('survey-section');
+                if (this.value === 'agree') {
+                    surveySection.classList.add('show');
+                    setRequiredFields(surveySection, true);
+                } else {
+                    surveySection.classList.remove('show');
+                    setRequiredFields(surveySection, false);
+                }
+            });
+        });
+    }
+    
+// フォーム要素の必須設定を制御する関数
+function setRequiredFields(container, required) {
+    const requiredElements = container.querySelectorAll('input[required], select[required], textarea[required]');
+    requiredElements.forEach(element => {
+        element.required = required;
+    });
+}
+
+// 接続テスト日程の動的生成
+function generateConnectionTestDates() {
+    const dates = [
+        { date: '12/26', times: ['18:30-21:30'] },
+        { date: '12/27', times: ['18:30-21:30'] },
+        { date: '1/11', times: ['13:00-16:00', '18:30-21:30'] },
+        { date: '1/29', times: ['18:30-21:30'] },
+        { date: '2/1', times: ['13:00-16:00'] }
+    ];
+
+    const container = document.getElementById('connection-test-dates');
+    if (!container) return;
+
+    container.innerHTML = ''; // 既存の内容をクリア
+
+    dates.forEach(dateObj => {
+        dateObj.times.forEach(time => {
+            const label = document.createElement('label');
+            const input = document.createElement('input');
+            input.type = 'checkbox';
+            input.name = 'connection-test-slots';
+            input.value = `${dateObj.date} ${time}`;
+            label.appendChild(input);
+            label.appendChild(document.createTextNode(` ${dateObj.date} ${time}`));
+            container.appendChild(label);
+        });
+    });
+}
+
+// 学校検索機能の初期化
+function initializeSchoolSearch() {
+    const searchButton = document.getElementById('search-school');
+    const popup = document.getElementById('school-search-popup');
+    const overlay = document.getElementById('overlay');
+    const searchInput = document.getElementById('school-search-input');
+    const searchResults = document.getElementById('school-search-results');
+    const schoolNameInput = document.getElementById('school-name');
+    const schoolSearchButton = document.getElementById('school-search-button');
+
+    // 学校データの初期取得
+    fetchSchools().then(fetchedSchools => {
+        schools = fetchedSchools;
+    });
+
+    // 検索ボタンのクリックハンドラ
+    searchButton.addEventListener('click', function() {
+        popup.style.display = 'block';
+        overlay.style.display = 'block';
+        searchInput.focus();
+        searchResults.innerHTML = '';
+        searchResults.appendChild(createOtherOption());
+    });
+
+    // オーバーレイのクリックハンドラ
+    overlay.addEventListener('click', closePopup);
+
+    // 検索実行ボタンのクリックハンドラ
+    schoolSearchButton.addEventListener('click', function() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const filteredSchools = schools.filter(school => 
+            school.toLowerCase().includes(searchTerm)
+        );
+        displaySearchResults(filteredSchools);
+    });
+
+    // 検索結果の表示
+    function displaySearchResults(results) {
+        searchResults.innerHTML = '';
+        
+        if (results.length === 0) {
+            const noResults = document.createElement('li');
+            noResults.textContent = '該当する高校が見つかりません';
+            noResults.style.fontStyle = 'italic';
+            noResults.style.color = '#666';
+            searchResults.appendChild(noResults);
+        } else {
+            results.forEach(school => {
+                const li = document.createElement('li');
+                li.textContent = school;
+                li.addEventListener('click', function() {
+                    schoolNameInput.value = school;
+                    closePopup();
+                });
+                searchResults.appendChild(li);
+            });
+        }
+
+        searchResults.appendChild(createOtherOption());
+    }
+
+    // 「その他」オプションの作成
+    function createOtherOption() {
+        const otherOption = document.createElement('li');
+        otherOption.textContent = 'その他（なしを含む）';
+        otherOption.addEventListener('click', function() {
+            schoolNameInput.value = 'その他（なしを含む）';
+            closePopup();
+        });
+        return otherOption;
+    }
+
+    // ポップアップを閉じる
+    function closePopup() {
+        popup.style.display = 'none';
+        overlay.style.display = 'none';
+    }
+}
+
+// 学校データの取得
+async function fetchSchools() {
+    try {
+        const form = document.createElement('form');
+        form.method = 'GET';
+        form.action = WEBAPP_URL;
+        form.target = 'hidden-iframe';
+
+        const iframe = document.createElement('iframe');
+        iframe.name = 'hidden-iframe';
+        iframe.style.display = 'none';
+        document.body.appendChild(iframe);
+        document.body.appendChild(form);
+
+        const response = await new Promise((resolve) => {
+            iframe.onload = () => {
+                try {
+                    const content = iframe.contentDocument.body.textContent;
+                    resolve(JSON.parse(content));
+                } catch (error) {
+                    resolve([]);
+                }
+                document.body.removeChild(form);
+                document.body.removeChild(iframe);
+            };
+        });
+
+        return response;
+    } catch (error) {
+        console.error('学校リストの取得に失敗しました:', error);
+        return [];
+    }
+}
+
+
+// フォームデータの送信
+async function submitFormData(jsonData) {
+    try {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = WEBAPP_URL;
+        form.target = '_blank';
+
+        const hiddenField = document.createElement('input');
+        hiddenField.type = 'hidden';
+        hiddenField.name = 'payload';
+        hiddenField.value = JSON.stringify(jsonData);
+        form.appendChild(hiddenField);
+
+        document.body.appendChild(form);
+        form.submit();
+        document.body.removeChild(form);
+
+        return { success: true };
+    } catch (error) {
+        console.error('送信エラー:', error);
+        return { success: false, error: error.message };
+    }
+}
+</script>
 </html>
