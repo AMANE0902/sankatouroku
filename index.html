@@ -6801,43 +6801,54 @@ function initializeFormValidation() {
         return isValid;
     }
 
-    // フォーム送信時の処理
-    form.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        // バリデーションの実行
-        restoreFormAttributes();
-        if (!validateEmails() || !validateVisibleFields()) {
-            alert('表示されている必須項目をすべて正しく入力してください。');
-            const firstError = document.querySelector('.error');
-            if (firstError) {
-                firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-            return;
+// フォーム送信時の処理を修正
+form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    // バリデーションの実行
+    restoreFormAttributes();
+    if (!validateEmails() || !validateVisibleFields()) {
+        alert('表示されている必須項目をすべて正しく入力してください。');
+        const firstError = document.querySelector('.error');
+        if (firstError) {
+            firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
+        return;
+    }
 
-        const submitButton = this.querySelector('input[type="submit"]');
+    // 送信ボタンの取得方法を修正
+    const submitButton = document.querySelector('.submit-button');
+    if (!submitButton) {
+        console.error('送信ボタンが見つかりません');
+        return;
+    }
+
+    try {
+        // 送信ボタンを無効化
         submitButton.disabled = true;
         submitButton.value = '送信中...';
-
-        try {
-            const formData = new FormData(this);
-            const jsonData = processFormData(formData);
-            const response = await submitFormData(jsonData);
-            
-            if (response.success) {
-                alert('回答を送信しました。ありがとうございました。');
-                window.location.reload();
-            } else {
-                throw new Error('送信に失敗しました');
-            }
-        } catch (error) {
-            console.error('送信エラー:', error);
-            alert('送信に失敗しました。もう一度お試しください。');
+        
+        const formData = new FormData(this);
+        const jsonData = processFormData(formData);
+        const response = await submitFormData(jsonData);
+        
+        if (response.success) {
+            alert('回答を送信しました。ありがとうございました。');
+            window.location.reload();
+        } else {
+            throw new Error('送信に失敗しました');
+        }
+    } catch (error) {
+        console.error('送信エラー:', error);
+        alert('送信に失敗しました。もう一度お試しください。');
+        
+        // エラー時のボタン状態の復元
+        if (submitButton) {
             submitButton.disabled = false;
             submitButton.value = '送信';
         }
-    });
+    }
+});
 
     // 条件付き表示の制御
     function toggleConditionalFields() {
