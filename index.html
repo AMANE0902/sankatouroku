@@ -6667,6 +6667,7 @@ function closePopup() {
 document.addEventListener('DOMContentLoaded', () => {
     initializeSchoolSearch();
 });
+
 // フォームバリデーションと送信の制御
 function initializeFormValidation() {
     const form = document.getElementById('registrationForm');
@@ -6674,51 +6675,127 @@ function initializeFormValidation() {
     const emailConfirmInput = document.getElementById('email-confirm');
     const emailError = document.getElementById('email-error');
 
+    // フォームコントロールの属性を一時保存
+    function storeFormAttributes() {
+        document.querySelectorAll('input, select, textarea').forEach(field => {
+            const attributes = ['required', 'min', 'max', 'minlength', 'maxlength', 'pattern'];
+            attributes.forEach(attr => {
+                if (field.hasAttribute(attr)) {
+                    field.setAttribute(`data-${attr}`, field.getAttribute(attr));
+                    field.removeAttribute(attr);
+                }
+            });
+        });
+    }
+
+    // 表示状態に応じて属性を復元
+    function restoreFormAttributes() {
+        document.querySelectorAll('input, select, textarea').forEach(field => {
+            const formGroup = field.closest('.form-group');
+            const isVisible = formGroup && 
+                window.getComputedStyle(formGroup).display !== 'none' &&
+                !formGroup.closest('.conditional-field:not(.show)');
+
+            if (isVisible) {
+                const attributes = ['required', 'min', 'max', 'minlength', 'maxlength', 'pattern'];
+                attributes.forEach(attr => {
+                    const dataAttr = `data-${attr}`;
+                    if (field.hasAttribute(dataAttr)) {
+                        field.setAttribute(attr, field.getAttribute(dataAttr));
+                    }
+                });
+            }
+        });
+    }
+
     // メールアドレスのバリデーション
     function validateEmails() {
         if (emailInput.value !== emailConfirmInput.value) {
             emailError.style.display = 'block';
-            emailConfirmInput.setCustomValidity('メールアドレスが一致しません');
             return false;
         }
         emailError.style.display = 'none';
-        emailConfirmInput.setCustomValidity('');
         return true;
     }
 
     // 表示されている必須項目のバリデーション
-    function validateVisibleRequiredFields() {
+    function validateVisibleFields() {
         let isValid = true;
-        const visibleRequiredFields = document.querySelectorAll(
-            '.form-group:not([style*="display: none"]) [required], ' +
-            '.conditional-field.show [required], ' +
-            ':not(.conditional-field) [required]'
-        );
+        const errorFields = [];
 
-        visibleRequiredFields.forEach(field => {
-            // ラジオボタンとチェックボックスの特別な処理
-            if ((field.type === 'radio' || field.type === 'checkbox') && field.name) {
+        // 表示されているフィールドのみを検証
+        document.querySelectorAll('input, select, textarea').forEach(field => {
+            const formGroup = field.closest('.form-group');
+            const isVisible = formGroup && 
+                window.getComputedStyle(formGroup).display !== 'none' &&
+                !formGroup.closest('.conditional-field:not(.show)');
+
+            if (!isVisible) return;
+
+            // ラジオボタンとチェックボックスの検証
+            if ((field.type === 'radio' || field.type === 'checkbox') && field.hasAttribute('data-required')) {
                 const group = document.querySelectorAll(`input[name="${field.name}"]`);
                 const isChecked = Array.from(group).some(input => input.checked);
                 if (!isChecked) {
                     isValid = false;
-                    // グループの最初の要素の親要素にエラークラスを追加
-                    group[0].closest('.form-group')?.classList.add('error');
-                } else {
-                    group[0].closest('.form-group')?.classList.remove('error');
+                    errorFields.push(group[0]);
                 }
-            } 
-            // 通常のフォーム要素の処理
-            else {
-                if (!field.value.trim()) {
+                return;
+            }
+
+            // その他のフィールドの検証
+            if (field.hasAttribute('data-required') && !field.value.trim()) {
+                isValid = false;
+                errorFields.push(field);
+            }
+
+            // 数値の範囲チェック
+            if (field.type === 'number' && field.value) {
+                const min = field.getAttribute('data-min');
+                const max = field.getAttribute('data-max');
+                const value = Number(field.value);
+
+                if (min && value < Number(min)) {
                     isValid = false;
-                    field.classList.add('error');
-                    field.closest('.form-group')?.classList.add('error');
-                } else {
-                    field.classList.remove('error');
-                    field.closest('.form-group')?.classList.remove('error');
+                    errorFields.push(field);
+                }
+                if (max && value > Number(max)) {
+                    isValid = false;
+                    errorFields.push(field);
                 }
             }
+
+            // テキスト長のチェック
+            if (field.value) {
+                const minLength = field.getAttribute('data-minlength');
+                const maxLength = field.getAttribute('data-maxlength');
+                const length = field.value.length;
+
+                if (minLength && length < Number(minLength)) {
+                    isValid = false;
+                    errorFields.push(field);
+                }
+                if (maxLength && length > Number(maxLength)) {
+                    isValid = false;
+                    errorFields.push(field);
+                }
+            }
+
+            // パターンチェック
+            if (field.hasAttribute('data-pattern') && field.value) {
+                const pattern = new RegExp(field.getAttribute('data-pattern'));
+                if (!pattern.test(field.value)) {
+                    isValid = false;
+                    errorFields.push(field);
+                }
+            }
+        });
+
+        // エラー表示の更新
+        document.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+        errorFields.forEach(field => {
+            field.classList.add('error');
+            field.closest('.form-group')?.classList.add('error');
         });
 
         return isValid;
@@ -6728,10 +6805,10 @@ function initializeFormValidation() {
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
         
-        // 表示されている必須項目とメールアドレスの検証
-        if (!validateEmails() || !validateVisibleRequiredFields()) {
-            alert('表示されている必須項目をすべて入力してください。');
-            // エラーのある最初の要素までスクロール
+        // バリデーションの実行
+        restoreFormAttributes();
+        if (!validateEmails() || !validateVisibleFields()) {
+            alert('表示されている必須項目をすべて正しく入力してください。');
             const firstError = document.querySelector('.error');
             if (firstError) {
                 firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -6787,6 +6864,9 @@ function initializeFormValidation() {
         if (surveySection) {
             surveySection.classList.toggle('show', surveyConsent === 'agree');
         }
+
+        // 表示状態が変更されたら属性を更新
+        restoreFormAttributes();
     }
 
     // イベントリスナーの設定
@@ -6804,7 +6884,8 @@ function initializeFormValidation() {
     emailInput.addEventListener('input', validateEmails);
     emailConfirmInput.addEventListener('input', validateEmails);
 
-    // 初期状態の設定
+    // 初期化
+    storeFormAttributes();
     toggleConditionalFields();
 }
 
