@@ -1425,18 +1425,139 @@ input[type="checkbox"] {
     </div>
 </body>
 <script>
-    // WebアプリのURL設定
-    const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbwFYmJ7I_5fy5CJWEeLuJ-fha8nSclGNl50bTsnmfMQJimlvrO6GwW0_dKrQVzEWyBJ/exec';
-    let schools = [];
-    
-    // DOMContentLoadedイベントリスナー
-    document.addEventListener('DOMContentLoaded', function() {
-        // 初期化処理
-        initializeFormValidation();
-        initializeConditionalDisplays();
-        generateConnectionTestDates();
-        initializeSchoolSearch();
+ // WebアプリのURL設定
+const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbwFYmJ7I_5fy5CJWEeLuJ-fha8nSclGNl50bTsnmfMQJimlvrO6GwW0_dKrQVzEWyBJ/exec';
+
+// フォームバリデーションの初期化
+function initializeFormValidation() {
+    // 既存のコードをそのまま維持
+}
+
+// 条件分岐による表示制御の初期化
+function initializeConditionalDisplays() {
+    // 既存のコードをそのまま維持
+}
+
+// 学校検索機能の初期化
+function initializeSchoolSearch() {
+    const searchButton = document.getElementById('search-school');
+    const popup = document.getElementById('school-search-popup');
+    const overlay = document.getElementById('overlay');
+    const searchInput = document.getElementById('school-search-input');
+    const searchResults = document.getElementById('school-search-results');
+    const schoolNameInput = document.getElementById('school-name');
+    const schoolSearchButton = document.getElementById('school-search-button');
+
+    // ダミーデータとして学校リストを用意
+    const dummySchools = [
+        "東京都立新宿高等学校",
+        "東京都立戸山高等学校",
+        "東京都立西高等学校",
+        "東京都立日比谷高等学校",
+        "早稲田実業学校高等部",
+        "慶應義塾高等学校",
+        "開成高等学校",
+        "麻布高等学校",
+        "桜蔭高等学校",
+        "筑波大学附属高等学校",
+        "渋谷教育学園渋谷高等学校",
+        "横浜市立南高等学校",
+        "神奈川県立川和高等学校",
+        "千葉県立千葉高等学校",
+        "埼玉県立浦和高等学校"
+    ];
+
+    // 検索ボタンのクリックハンドラ
+    searchButton.addEventListener('click', function() {
+        popup.style.display = 'block';
+        overlay.style.display = 'block';
+        searchInput.focus();
+        displaySearchResults(dummySchools); // 初期表示として全学校を表示
     });
+
+    // オーバーレイのクリックハンドラ
+    overlay.addEventListener('click', closePopup);
+
+    // 検索実行ボタンのクリックハンドラ
+    schoolSearchButton.addEventListener('click', function() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const filteredSchools = dummySchools.filter(school => 
+            school.toLowerCase().includes(searchTerm)
+        );
+        displaySearchResults(filteredSchools);
+    });
+
+    // 検索入力フィールドのEnterキーハンドラ
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            schoolSearchButton.click();
+        }
+    });
+
+    // 検索結果の表示
+    function displaySearchResults(results) {
+        searchResults.innerHTML = '';
+        
+        if (results.length === 0) {
+            const noResults = document.createElement('li');
+            noResults.textContent = '該当する高校が見つかりません';
+            noResults.style.padding = '10px';
+            noResults.style.color = '#666';
+            searchResults.appendChild(noResults);
+        } else {
+            results.forEach(school => {
+                const li = document.createElement('li');
+                li.textContent = school;
+                li.style.padding = '10px';
+                li.style.cursor = 'pointer';
+                li.addEventListener('click', function() {
+                    schoolNameInput.value = school;
+                    schoolNameInput.readOnly = true; // 読み取り専用に設定
+                    closePopup();
+                });
+                li.addEventListener('mouseover', function() {
+                    li.style.backgroundColor = '#f0f0f0';
+                });
+                li.addEventListener('mouseout', function() {
+                    li.style.backgroundColor = '';
+                });
+                searchResults.appendChild(li);
+            });
+        }
+
+        // その他オプションの追加
+        const otherOption = document.createElement('li');
+        otherOption.textContent = 'その他（なしを含む）';
+        otherOption.style.padding = '10px';
+        otherOption.style.cursor = 'pointer';
+        otherOption.style.borderTop = '1px solid #eee';
+        otherOption.addEventListener('click', function() {
+            schoolNameInput.value = 'その他（なしを含む）';
+            schoolNameInput.readOnly = true; // 読み取り専用に設定
+            closePopup();
+        });
+        otherOption.addEventListener('mouseover', function() {
+            otherOption.style.backgroundColor = '#f0f0f0';
+        });
+        otherOption.addEventListener('mouseout', function() {
+            otherOption.style.backgroundColor = '';
+        });
+        searchResults.appendChild(otherOption);
+    }
+
+    // ポップアップを閉じる
+    function closePopup() {
+        popup.style.display = 'none';
+        overlay.style.display = 'none';
+        searchInput.value = '';
+    }
+}
+
+// 接続テスト日程の動的生成
+function generateConnectionTestDates() {
+    // 既存のコードをそのまま維持
+}
     
     // フォームバリデーションの初期化
     function initializeFormValidation() {
