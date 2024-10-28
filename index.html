@@ -6667,8 +6667,7 @@ function closePopup() {
 document.addEventListener('DOMContentLoaded', () => {
     initializeSchoolSearch();
 });
-
-// 条件付きフィールドの制御とバリデーション
+// フォームバリデーションと送信の制御
 function initializeFormValidation() {
     const form = document.getElementById('registrationForm');
     const emailInput = document.getElementById('email');
@@ -6687,89 +6686,40 @@ function initializeFormValidation() {
         return true;
     }
 
-    // 必須フィールドの検証
-    function validateRequiredFields() {
+    // 表示されている必須項目のバリデーション
+    function validateVisibleRequiredFields() {
         let isValid = true;
-        const role = document.querySelector('input[name="role"]:checked')?.value;
-        const summit = document.getElementById('summit').value;
-        const surveyConsent = document.querySelector('input[name="survey-consent"]:checked')?.value;
+        const visibleRequiredFields = document.querySelectorAll(
+            '.form-group:not([style*="display: none"]) [required], ' +
+            '.conditional-field.show [required], ' +
+            ':not(.conditional-field) [required]'
+        );
 
-        // 基本情報の検証
-        const basicFields = [
-            'name',
-            'project',
-            'email',
-            'email-confirm',
-            'phone',
-            'school-type',
-            'school-prefecture',
-            'school-name',
-            'grade'
-        ];
-
-        basicFields.forEach(fieldId => {
-            const field = document.getElementById(fieldId);
-            if (!field.value) {
-                isValid = false;
-                field.classList.add('error');
-            } else {
-                field.classList.remove('error');
+        visibleRequiredFields.forEach(field => {
+            // ラジオボタンとチェックボックスの特別な処理
+            if ((field.type === 'radio' || field.type === 'checkbox') && field.name) {
+                const group = document.querySelectorAll(`input[name="${field.name}"]`);
+                const isChecked = Array.from(group).some(input => input.checked);
+                if (!isChecked) {
+                    isValid = false;
+                    // グループの最初の要素の親要素にエラークラスを追加
+                    group[0].closest('.form-group')?.classList.add('error');
+                } else {
+                    group[0].closest('.form-group')?.classList.remove('error');
+                }
+            } 
+            // 通常のフォーム要素の処理
+            else {
+                if (!field.value.trim()) {
+                    isValid = false;
+                    field.classList.add('error');
+                    field.closest('.form-group')?.classList.add('error');
+                } else {
+                    field.classList.remove('error');
+                    field.closest('.form-group')?.classList.remove('error');
+                }
             }
         });
-
-        // プロジェクト代表者用フィールドの検証
-        if (role === 'プロジェクト代表者') {
-            const representativeFields = [
-                'member-notification',
-                'participant-count',
-                'postal-code',
-                'address',
-                'address-type',
-                'delivery-phone'
-            ];
-
-            representativeFields.forEach(fieldId => {
-                const field = document.getElementById(fieldId);
-                if (!field.value) {
-                    isValid = false;
-                    field.classList.add('error');
-                } else {
-                    field.classList.remove('error');
-                }
-            });
-        }
-
-        // オンライン参加用フィールドの検証
-        if (summit.includes('オンライン')) {
-            const onlineFields = [
-                'participation-style',
-                'connection-status',
-                'equipment-rental'
-            ];
-
-            onlineFields.forEach(fieldId => {
-                const field = document.getElementById(fieldId);
-                if (!field.value) {
-                    isValid = false;
-                    field.classList.add('error');
-                } else {
-                    field.classList.remove('error');
-                }
-            });
-        }
-
-        // アンケート回答の検証
-        if (surveyConsent === 'agree') {
-            const surveyFields = document.querySelectorAll('#survey-section [required]');
-            surveyFields.forEach(field => {
-                if (!field.value && !field.checked) {
-                    isValid = false;
-                    field.classList.add('error');
-                } else {
-                    field.classList.remove('error');
-                }
-            });
-        }
 
         return isValid;
     }
@@ -6778,8 +6728,14 @@ function initializeFormValidation() {
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
         
-        if (!validateEmails() || !validateRequiredFields()) {
-            alert('必須項目を入力してください');
+        // 表示されている必須項目とメールアドレスの検証
+        if (!validateEmails() || !validateVisibleRequiredFields()) {
+            alert('表示されている必須項目をすべて入力してください。');
+            // エラーのある最初の要素までスクロール
+            const firstError = document.querySelector('.error');
+            if (firstError) {
+                firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
             return;
         }
 
@@ -6808,45 +6764,29 @@ function initializeFormValidation() {
 
     // 条件付き表示の制御
     function toggleConditionalFields() {
+        // 役割による表示制御
         const role = document.querySelector('input[name="role"]:checked')?.value;
-        const summit = document.getElementById('summit').value;
-        const surveyConsent = document.querySelector('input[name="survey-consent"]:checked')?.value;
-
-        // プロジェクト代表者セクション
         const representativeSection = document.getElementById('representative-section');
         if (representativeSection) {
-            representativeSection.style.display = role === 'プロジェクト代表者' ? 'block' : 'none';
-            setRequiredFields(representativeSection, role === 'プロジェクト代表者');
+            representativeSection.classList.toggle('show', role === 'プロジェクト代表者');
         }
 
-        // オンライン参加セクション
-        const onlineSections = [
-            'online-participation-section',
-            'connection-test-section'
-        ];
+        // Summitによる表示制御
+        const summit = document.getElementById('summit').value;
         const isOnline = summit.includes('オンライン');
-        onlineSections.forEach(sectionId => {
+        ['online-participation-section', 'connection-test-section'].forEach(sectionId => {
             const section = document.getElementById(sectionId);
             if (section) {
-                section.style.display = isOnline ? 'block' : 'none';
-                setRequiredFields(section, isOnline);
+                section.classList.toggle('show', isOnline);
             }
         });
 
-        // アンケートセクション
+        // アンケート同意による表示制御
+        const surveyConsent = document.querySelector('input[name="survey-consent"]:checked')?.value;
         const surveySection = document.getElementById('survey-section');
         if (surveySection) {
-            surveySection.style.display = surveyConsent === 'agree' ? 'block' : 'none';
-            setRequiredFields(surveySection, surveyConsent === 'agree');
+            surveySection.classList.toggle('show', surveyConsent === 'agree');
         }
-    }
-
-    // 必須フィールドの設定
-    function setRequiredFields(container, required) {
-        const fields = container.querySelectorAll('[data-required="true"]');
-        fields.forEach(field => {
-            field.required = required;
-        });
     }
 
     // イベントリスナーの設定
@@ -6860,12 +6800,17 @@ function initializeFormValidation() {
         radio.addEventListener('change', toggleConditionalFields);
     });
 
+    // メールアドレス確認のイベントリスナー
+    emailInput.addEventListener('input', validateEmails);
+    emailConfirmInput.addEventListener('input', validateEmails);
+
     // 初期状態の設定
     toggleConditionalFields();
 }
 
 // DOM読み込み完了時に初期化
 document.addEventListener('DOMContentLoaded', initializeFormValidation);
+
 
 // 学校検索機能の初期化
 function initializeSchoolSearch() {
