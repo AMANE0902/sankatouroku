@@ -1425,19 +1425,18 @@ input[type="checkbox"] {
     </div>
 </body>
 <script>
-    // WebアプリのURL設定
+    // WebアプリのURL設定 (必要に応じて更新)
     const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbwFYmJ7I_5fy5CJWEeLuJ-fha8nSclGNl50bTsnmfMQJimlvrO6GwW0_dKrQVzEWyBJ/exec';
-    let schools = [];
-    
+
     // DOMContentLoadedイベントリスナー
     document.addEventListener('DOMContentLoaded', function() {
-        // 初期化処理
+        // 初期化処理を実行
         initializeFormValidation();
         initializeConditionalDisplays();
         generateConnectionTestDates();
         initializeSchoolSearch();
-    })
-    
+    });
+
     // フォームバリデーションの初期化
     function initializeFormValidation() {
         const form = document.getElementById('registrationForm');
@@ -1486,10 +1485,8 @@ input[type="checkbox"] {
                 const formData = new FormData(this);
                 const jsonData = {};
                 
-                // FormDataの処理
                 formData.forEach((value, key) => {
                     if (key.includes('[]')) {
-                        // 配列データの処理
                         const baseKey = key.replace('[]', '');
                         if (!jsonData[baseKey]) {
                             jsonData[baseKey] = [];
@@ -1537,7 +1534,7 @@ input[type="checkbox"] {
             }
         });
     }
-    
+
     // 条件分岐による表示制御の初期化
     function initializeConditionalDisplays() {
         // 役割選択による表示制御
@@ -1580,181 +1577,182 @@ input[type="checkbox"] {
             });
         });
     }
-    
-// フォーム要素の必須設定を制御する関数
-function setRequiredFields(container, required) {
-    const requiredElements = container.querySelectorAll('input[required], select[required], textarea[required]');
-    requiredElements.forEach(element => {
-        element.required = required;
-    });
-}
 
-// 接続テスト日程の動的生成
-function generateConnectionTestDates() {
-    const dates = [
-        { date: '12/26', times: ['18:30-21:30'] },
-        { date: '12/27', times: ['18:30-21:30'] },
-        { date: '1/11', times: ['13:00-16:00', '18:30-21:30'] },
-        { date: '1/29', times: ['18:30-21:30'] },
-        { date: '2/1', times: ['13:00-16:00'] }
-    ];
-
-    const container = document.getElementById('connection-test-dates');
-    if (!container) return;
-
-    container.innerHTML = ''; // 既存の内容をクリア
-
-    dates.forEach(dateObj => {
-        dateObj.times.forEach(time => {
-            const label = document.createElement('label');
-            const input = document.createElement('input');
-            input.type = 'checkbox';
-            input.name = 'connection-test-slots';
-            input.value = `${dateObj.date} ${time}`;
-            label.appendChild(input);
-            label.appendChild(document.createTextNode(` ${dateObj.date} ${time}`));
-            container.appendChild(label);
+    // フォーム要素の必須設定を制御する関数
+    function setRequiredFields(container, required) {
+        const requiredElements = container.querySelectorAll('input[required], select[required], textarea[required]');
+        requiredElements.forEach(element => {
+            element.required = required;
         });
-    });
-}
+    }
 
-// 学校検索機能の初期化
-function initializeSchoolSearch() {
-    const searchButton = document.getElementById('search-school');
-    const popup = document.getElementById('school-search-popup');
-    const overlay = document.getElementById('overlay');
-    const searchInput = document.getElementById('school-search-input');
-    const searchResults = document.getElementById('school-search-results');
-    const schoolNameInput = document.getElementById('school-name');
-    const schoolSearchButton = document.getElementById('school-search-button');
+    // 接続テスト日程の動的生成
+    function generateConnectionTestDates() {
+        const dates = [
+            { date: '12/26', times: ['18:30-21:30'] },
+            { date: '12/27', times: ['18:30-21:30'] },
+            { date: '1/11', times: ['13:00-16:00', '18:30-21:30'] },
+            { date: '1/29', times: ['18:30-21:30'] },
+            { date: '2/1', times: ['13:00-16:00'] }
+        ];
 
-    // 学校データの初期取得
-    fetchSchools().then(fetchedSchools => {
-        schools = fetchedSchools;
-    });
+        const container = document.getElementById('connection-test-dates');
+        if (!container) return;
 
-    // 検索ボタンのクリックハンドラ
-    searchButton.addEventListener('click', function() {
-        popup.style.display = 'block';
-        overlay.style.display = 'block';
-        searchInput.focus();
-        searchResults.innerHTML = '';
-        searchResults.appendChild(createOtherOption());
-    });
+        container.innerHTML = '';
 
-    // オーバーレイのクリックハンドラ
-    overlay.addEventListener('click', closePopup);
-
-    // 検索実行ボタンのクリックハンドラ
-    schoolSearchButton.addEventListener('click', function() {
-        const searchTerm = searchInput.value.toLowerCase();
-        const filteredSchools = schools.filter(school => 
-            school.toLowerCase().includes(searchTerm)
-        );
-        displaySearchResults(filteredSchools);
-    });
-
-    // 検索結果の表示
-    function displaySearchResults(results) {
-        searchResults.innerHTML = '';
-        
-        if (results.length === 0) {
-            const noResults = document.createElement('li');
-            noResults.textContent = '該当する高校が見つかりません';
-            noResults.style.fontStyle = 'italic';
-            noResults.style.color = '#666';
-            searchResults.appendChild(noResults);
-        } else {
-            results.forEach(school => {
-                const li = document.createElement('li');
-                li.textContent = school;
-                li.addEventListener('click', function() {
-                    schoolNameInput.value = school;
-                    closePopup();
-                });
-                searchResults.appendChild(li);
+        dates.forEach(dateObj => {
+            dateObj.times.forEach(time => {
+                const label = document.createElement('label');
+                const input = document.createElement('input');
+                input.type = 'checkbox';
+                input.name = 'connection-test-slots';
+                input.value = `${dateObj.date} ${time}`;
+                label.appendChild(input);
+                label.appendChild(document.createTextNode(` ${dateObj.date} ${time}`));
+                container.appendChild(label);
             });
+        });
+    }
+
+    // 学校検索機能の初期化
+    function initializeSchoolSearch() {
+        const searchButton = document.getElementById('search-school');
+        const popup = document.getElementById('school-search-popup');
+        const overlay = document.getElementById('overlay');
+        const searchInput = document.getElementById('school-search-input');
+        const searchResults = document.getElementById('school-search-results');
+        const schoolNameInput = document.getElementById('school-name');
+        const schoolSearchButton = document.getElementById('school-search-button');
+
+        // ダミーデータとして日本の高校のサンプルリスト
+        const sampleSchools = [
+            "東京都立第一高等学校",
+            "大阪府立北野高等学校",
+            "京都市立堀川高等学校",
+            "神戸市立科学技術高等学校",
+            "横浜市立南高等学校",
+            "名古屋市立向陽高等学校",
+            "札幌北高等学校",
+            "仙台第一高等学校",
+            "広島市立基町高等学校",
+            "福岡県立修猷館高等学校"
+        ];
+
+        // 学校データの初期設定
+        let schools = sampleSchools;
+
+        // 検索ボタンのクリックハンドラ
+        searchButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            popup.style.display = 'block';
+            overlay.style.display = 'block';
+            searchInput.focus();
+            displaySearchResults(schools); // 初期表示として全校表示
+        });
+
+        // 検索入力のキーアップハンドラ（リアルタイム検索）
+        searchInput.addEventListener('keyup', function() {
+            const searchTerm = this.value.toLowerCase();
+            const filteredSchools = schools.filter(school => 
+                school.toLowerCase().includes(searchTerm)
+            );
+            displaySearchResults(filteredSchools);
+        });
+
+        // 検索実行ボタンのクリックハンドラ
+        schoolSearchButton.addEventListener('click', function() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const filteredSchools = schools.filter(school => 
+                school.toLowerCase().includes(searchTerm)
+            );
+            displaySearchResults(filteredSchools);
+        });
+
+        // オーバーレイのクリックハンドラ
+        overlay.addEventListener('click', closePopup);
+
+        // 検索結果の表示
+        function displaySearchResults(results) {
+            searchResults.innerHTML = '';
+            
+            if (results.length === 0) {
+                const noResults = document.createElement('li');
+                noResults.textContent = '該当する高校が見つかりません';
+                noResults.style.padding = '10px';
+                noResults.style.textAlign = 'center';
+                searchResults.appendChild(noResults);
+            } else {
+                results.forEach(school => {
+                    const li = document.createElement('li');
+                    li.textContent = school;
+                    li.style.padding = '10px';
+                    li.style.cursor = 'pointer';
+                    li.addEventListener('click', function() {
+                        schoolNameInput.value = school;
+                        closePopup();
+                    });
+                    li.addEventListener('mouseover', function() {
+                        this.style.backgroundColor = '#f0f0f0';
+                    });
+                    li.addEventListener('mouseout', function() {
+                        this.style.backgroundColor = '';
+                    });
+                    searchResults.appendChild(li);
+                });
+            }
+
+            // その他オプションの追加
+            const otherOption = document.createElement('li');
+            otherOption.textContent = 'その他（なしを含む）';
+            otherOption.style.padding = '10px';
+            otherOption.style.cursor = 'pointer';
+            otherOption.style.borderTop = '1px solid #eee';
+            otherOption.addEventListener('click', function() {
+                schoolNameInput.value = 'その他（なしを含む）';
+                closePopup();
+            });
+            searchResults.appendChild(otherOption);
         }
 
-        searchResults.appendChild(createOtherOption());
-    }
+        // ポップアップを閉じる
+        function closePopup() {
+            popup.style.display = 'none';
+            overlay.style.display = 'none';
+            searchInput.value = ''; // 入力をクリア
+        }
 
-    // 「その他」オプションの作成
-    function createOtherOption() {
-        const otherOption = document.createElement('li');
-        otherOption.textContent = 'その他（なしを含む）';
-        otherOption.addEventListener('click', function() {
-            schoolNameInput.value = 'その他（なしを含む）';
-            closePopup();
+        // エスケープキーでポップアップを閉じる
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && popup.style.display === 'block') {
+                closePopup();
+            }
         });
-        return otherOption;
     }
 
-    // ポップアップを閉じる
-    function closePopup() {
-        popup.style.display = 'none';
-        overlay.style.display = 'none';
+    // フォームデータの送信
+    async function submitFormData(jsonData) {
+        try {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = WEBAPP_URL;
+            form.target = '_blank';
+
+            const hiddenField = document.createElement('input');
+            hiddenField.type = 'hidden';
+            hiddenField.name = 'payload';
+            hiddenField.value = JSON.stringify(jsonData);
+            form.appendChild(hiddenField);
+
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
+
+            return { success: true };
+        } catch (error) {
+            console.error('送信エラー:', error);
+            return { success: false, error: error.message };
+        }
     }
-}
-
-// 学校データの取得
-async function fetchSchools() {
-    try {
-        const form = document.createElement('form');
-        form.method = 'GET';
-        form.action = WEBAPP_URL;
-        form.target = 'hidden-iframe';
-
-        const iframe = document.createElement('iframe');
-        iframe.name = 'hidden-iframe';
-        iframe.style.display = 'none';
-        document.body.appendChild(iframe);
-        document.body.appendChild(form);
-
-        const response = await new Promise((resolve) => {
-            iframe.onload = () => {
-                try {
-                    const content = iframe.contentDocument.body.textContent;
-                    resolve(JSON.parse(content));
-                } catch (error) {
-                    resolve([]);
-                }
-                document.body.removeChild(form);
-                document.body.removeChild(iframe);
-            };
-        });
-
-        return response;
-    } catch (error) {
-        console.error('学校リストの取得に失敗しました:', error);
-        return [];
-    }
-}
-
-
-// フォームデータの送信
-async function submitFormData(jsonData) {
-    try {
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = WEBAPP_URL;
-        form.target = '_blank';
-
-        const hiddenField = document.createElement('input');
-        hiddenField.type = 'hidden';
-        hiddenField.name = 'payload';
-        hiddenField.value = JSON.stringify(jsonData);
-        form.appendChild(hiddenField);
-
-        document.body.appendChild(form);
-        form.submit();
-        document.body.removeChild(form);
-
-        return { success: true };
-    } catch (error) {
-        console.error('送信エラー:', error);
-        return { success: false, error: error.message };
-    }
-}
 </script>
 </html>
