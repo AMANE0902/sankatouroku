@@ -6,7 +6,7 @@
     <title>全国高校生MY PROJECT AWARD 2024　参加登録フォーム</title>
     <style>
         /* 既存のスタイルはそのまま保持 */
-       /* 基本カラーパレット */
+   /* 基本カラーパレット */
 :root {
   --primary-color: #2563eb;
   --primary-hover: #1d4ed8;
@@ -191,24 +191,156 @@ input[type="checkbox"] {
   background-color: var(--primary-hover);
 }
 
-/* プログレスバー */
-.progress-container {
-  background-color: var(--bg-secondary);
-  padding: 1.25rem;
-  border-radius: 0.75rem;
-  margin: 1.5rem 0;
+/* 条件付きフィールド */
+.conditional-field {
+  display: none;
 }
 
-.progress-bar {
+.conditional-field.show {
+  display: block;
+}
+
+/* ポップアップ関連 */
+.popup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  z-index: 1000;
+  width: 90%;
+  max-width: 500px;
+}
+
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 999;
+}
+
+.popup h2 {
+  margin-top: 0;
+  color: #2c3e50;
+  font-size: 24px;
+}
+
+.popup input {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.popup ul {
+  list-style-type: none;
+  padding: 0;
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #eee;
+  border-radius: 4px;
+}
+
+.popup li {
+  cursor: pointer;
+  padding: 10px;
+  transition: background-color 0.2s;
+}
+
+.popup li:hover {
+  background-color: #f0f0f0;
+}
+
+/* 同意セクション */
+.consent-container {
+  background-color: var(--bg-secondary);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin: 2rem 0;
+}
+
+.consent-text {
+  background-color: var(--bg-primary);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid var(--border-color);
+}
+
+.consent-text p {
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+.consent-text ul {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.consent-text li {
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+/* レジリエンス質問 */
+.question-item {
+  background-color: var(--bg-secondary);
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.question-item p {
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+/* 学校検索 */
+.school-input-container {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.school-input-container input {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+/* プログレスバー */
+.progress-bar-container {
+  background-color: var(--bg-secondary);
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  margin: 2rem 0;
+}
+
+.progress-text {
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.progress-track {
+  background-color: var(--border-color);
   height: 0.5rem;
-  background-color: #e5e7eb;
   border-radius: 0.25rem;
   overflow: hidden;
 }
 
 .progress-fill {
-  height: 100%;
   background-color: var(--primary-color);
+  height: 100%;
   transition: width 0.3s ease;
 }
 
@@ -237,190 +369,10 @@ input[type="checkbox"] {
   #search-school {
     width: 100%;
   }
-}
-/* これらのスタイルは新しいCSSの最後に追加してください */
-.conditional-field {
-    display: none;
-}
 
-.conditional-field.show {
-    display: block;
-}
-/* ポップアップ関連のスタイル - 新しいCSSの最後に追加 */
-.popup {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-    z-index: 1000;
-    width: 90%;
-    max-width: 500px;
-}
-
-.overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-    z-index: 999;
-}
-
-.popup h2 {
-    margin-top: 0;
-    color: #2c3e50;
-    font-size: 24px;
-}
-
-.popup input {
-    width: 100%;
-    margin-bottom: 15px;
-}
-
-.popup ul {
-    list-style-type: none;
-    padding: 0;
-    max-height: 300px;
-    overflow-y: auto;
-    border: 1px solid #eee;
-    border-radius: 4px;
-}
-
-.popup li {
-    cursor: pointer;
-    padding: 10px;
-    transition: background-color 0.2s;
-}
-
-.popup li:hover {
-    background-color: #f0f0f0;
-}
-
-/* 同意セクション用のスタイル */
-.consent-container {
-    background-color: var(--bg-secondary);
-    border-radius: 0.75rem;
-    padding: 1.5rem;
-    margin: 2rem 0;
-}
-
-.consent-text {
-    background-color: var(--bg-primary);
-    padding: 1.5rem;
-    border-radius: 0.5rem;
-    margin-bottom: 1.5rem;
-    max-height: 300px;
-    overflow-y: auto;
-    border: 1px solid var(--border-color);
-}
-
-.consent-text p {
-    margin-bottom: 1rem;
-    color: var(--text-primary);
-}
-
-.consent-text ul {
-    margin-left: 1.5rem;
-    margin-bottom: 1rem;
-}
-
-.consent-text li {
-    margin-bottom: 0.5rem;
-    color: var(--text-primary);
-}
-
-/* レジリエンス質問用のスタイル */
-.question-item {
-    background-color: var(--bg-secondary);
-    padding: 1.5rem;
-    border-radius: 0.75rem;
-    margin-bottom: 1.5rem;
-}
-
-.question-item p {
-    font-weight: 500;
-    color: var(--text-primary);
-    margin-bottom: 1rem;
-}
-
-/* アンケートセクション全体のスタイル */
-.survey-section {
-    background-color: var(--bg-primary);
-    border-radius: 0.75rem;
-    padding: 1.5rem;
-    margin-top: 2rem;
-}
-
-/* プログレスバーのスタイル改善 */
-.progress-bar-container {
-    background-color: var(--bg-secondary);
-    padding: 1.5rem;
-    border-radius: 0.75rem;
-    margin: 2rem 0;
-}
-
-.progress-text {
-    font-weight: 500;
-    color: var(--text-primary);
-    margin-bottom: 0.75rem;
-}
-
-.progress-track {
-    background-color: var(--border-color);
-    height: 0.5rem;
-    border-radius: 0.25rem;
-    overflow: hidden;
-}
-
-.progress-fill {
-    background-color: var(--primary-color);
-    height: 100%;
-    transition: width 0.3s ease;
-}
-.school-input-container {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-    margin-bottom: 0.5rem;
-}
-
-.school-input-container input {
-    flex: 1;
-    margin-bottom: 0;
-}
-
-.search-button {
-    background-color: var(--primary-color);
-    color: white;
-    padding: 0.75rem 1rem;
-    border: none;
-    border-radius: 0.5rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: background-color 0.2s;
-}
-
-.search-button:hover {
-    background-color: var(--primary-hover);
-}
-
-@media (max-width: 640px) {
-    .school-input-container {
-        flex-direction: column;
-    }
-    
-    .search-button {
-        width: 100%;
-    }
+  .school-input-container {
+    flex-direction: column;
+  }
 }
     </style>
 </head>
@@ -1462,171 +1414,156 @@ input[type="checkbox"] {
     </div>
 </body>
 <script>
-    // WebアプリのURL設定
-    const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbwFYmJ7I_5fy5CJWEeLuJ-fha8nSclGNl50bTsnmfMQJimlvrO6GwW0_dKrQVzEWyBJ/exec';
-    let schools = [];
-    
-    // DOMContentLoadedイベントリスナー
-    document.addEventListener('DOMContentLoaded', function() {
-        // 初期化処理
-        initializeFormValidation();
-        initializeConditionalDisplays();
-        generateConnectionTestDates();
-        initializeSchoolSearch();
-    })
-    
-    // フォームバリデーションの初期化
-    function initializeFormValidation() {
-        const form = document.getElementById('registrationForm');
-        const emailInput = document.getElementById('email');
-        const emailConfirmInput = document.getElementById('email-confirm');
-        const emailError = document.getElementById('email-error');
-    
-        // メールアドレスの一致確認
-        function validateEmails() {
-            if (!emailInput.value || !emailConfirmInput.value) {
-                emailError.style.display = 'block';
-                emailError.textContent = 'メールアドレスを入力してください';
-                return false;
-            }
-    
-            if (emailInput.value !== emailConfirmInput.value) {
-                emailError.style.display = 'block';
-                emailError.textContent = 'メールアドレスが一致しません';
-                emailConfirmInput.setCustomValidity('メールアドレスが一致しません');
-                return false;
-            }
-    
-            emailError.style.display = 'none';
-            emailConfirmInput.setCustomValidity('');
-            return true;
+ // WebアプリのURL設定
+const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbwFYmJ7I_5fy5CJWEeLuJ-fha8nSclGNl50bTsnmfMQJimlvrO6GwW0_dKrQVzEWyBJ/exec';
+let schools = [];
+
+// 初期化処理
+document.addEventListener('DOMContentLoaded', function() {
+    initializeFormValidation();
+    initializeConditionalDisplays();
+    generateConnectionTestDates();
+    initializeSchoolSearch();
+});
+
+// フォームバリデーション
+function initializeFormValidation() {
+    const form = document.getElementById('registrationForm');
+    const emailInput = document.getElementById('email');
+    const emailConfirmInput = document.getElementById('email-confirm');
+    const emailError = document.getElementById('email-error');
+
+    function validateEmails() {
+        if (!emailInput.value || !emailConfirmInput.value) {
+            emailError.style.display = 'block';
+            emailError.textContent = 'メールアドレスを入力してください';
+            return false;
         }
-    
-        emailInput.addEventListener('input', validateEmails);
-        emailConfirmInput.addEventListener('input', validateEmails);
-    
-        // フォーム送信時の処理
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            if (!validateEmails()) {
-                return;
-            }
-    
-            // 送信ボタンの状態を更新
-            const submitButton = this.querySelector('input[type="submit"]');
-            submitButton.disabled = true;
-            submitButton.value = '送信中...';
-    
-            try {
-                // フォームデータの収集
-                const formData = new FormData(this);
-                const jsonData = {};
-                
-                // FormDataの処理
-                formData.forEach((value, key) => {
-                    if (key.includes('[]')) {
-                        // 配列データの処理
-                        const baseKey = key.replace('[]', '');
-                        if (!jsonData[baseKey]) {
-                            jsonData[baseKey] = [];
-                        }
-                        jsonData[baseKey].push(value);
-                    } else {
-                        jsonData[key] = value;
-                    }
-                });
-    
-                // チェックボックスグループの処理
-                const checkboxGroups = ['project_field', 'activity_time', 'acquired_skills', 'important_issues'];
-                checkboxGroups.forEach(groupName => {
-                    const checkedBoxes = Array.from(
-                        document.querySelectorAll(`input[name="${groupName}"]:checked`)
-                    ).map(cb => cb.value);
-                    if (checkedBoxes.length > 0) {
-                        jsonData[groupName] = checkedBoxes;
-                    }
-                });
-    
-                // 接続テスト日程の処理
-                const selectedDates = Array.from(
-                    document.querySelectorAll('input[name="connection-test-slots"]:checked')
-                ).map(checkbox => checkbox.value);
-                if (selectedDates.length > 0) {
-                    jsonData['connection_test_dates'] = selectedDates;
-                }
-    
-                // データ送信
-                const response = await submitFormData(jsonData);
-                
-                if (response.success) {
-                    alert('回答を送信しました。ありがとうございました。');
-                    window.location.reload();
-                } else {
-                    throw new Error('送信に失敗しました');
-                }
-    
-            } catch (error) {
-                console.error('送信エラー:', error);
-                alert('送信に失敗しました。もう一度お試しください。');
-                submitButton.disabled = false;
-                submitButton.value = '送信';
-            }
-        });
+
+        if (emailInput.value !== emailConfirmInput.value) {
+            emailError.style.display = 'block';
+            emailError.textContent = 'メールアドレスが一致しません';
+            emailConfirmInput.setCustomValidity('メールアドレスが一致しません');
+            return false;
+        }
+
+        emailError.style.display = 'none';
+        emailConfirmInput.setCustomValidity('');
+        return true;
     }
-    
-    // 条件分岐による表示制御の初期化
-    function initializeConditionalDisplays() {
-        // 役割選択による表示制御
-        document.querySelectorAll('input[name="role"]').forEach(radio => {
-            radio.addEventListener('change', function() {
-                const representativeSection = document.getElementById('representative-section');
-                if (this.value === 'プロジェクト代表者') {
-                    representativeSection.classList.add('show');
-                    setRequiredFields(representativeSection, true);
-                } else {
-                    representativeSection.classList.remove('show');
-                    setRequiredFields(representativeSection, false);
-                }
-            });
-        });
-    
-        // Summit選択による表示制御
-        document.getElementById('summit').addEventListener('change', function() {
-            const summit = this.value;
-            const onlineSection = document.getElementById('online-participation-section');
-            const connectionTestSection = document.getElementById('connection-test-section');
-            const isOnline = summit.includes('オンライン');
+
+    emailInput.addEventListener('input', validateEmails);
+    emailConfirmInput.addEventListener('input', validateEmails);
+
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        if (!validateEmails()) return;
+
+        const submitButton = this.querySelector('input[type="submit"]');
+        submitButton.disabled = true;
+        submitButton.value = '送信中...';
+
+        try {
+            const formData = new FormData(this);
+            const jsonData = processFormData(formData);
+            const response = await submitFormData(jsonData);
             
-            onlineSection.classList.toggle('show', isOnline);
-            connectionTestSection.classList.toggle('show', isOnline);
-            setRequiredFields(onlineSection, isOnline);
-        });
+            if (response.success) {
+                alert('回答を送信しました。ありがとうございました。');
+                window.location.reload();
+            } else {
+                throw new Error('送信に失敗しました');
+            }
+        } catch (error) {
+            console.error('送信エラー:', error);
+            alert('送信に失敗しました。もう一度お試しください。');
+            submitButton.disabled = false;
+            submitButton.value = '送信';
+        }
+    });
+}
+
+// フォームデータの処理
+function processFormData(formData) {
+    const jsonData = {};
     
-        // 同意による表示制御
-        document.querySelectorAll('input[name="survey-consent"]').forEach(radio => {
-            radio.addEventListener('change', function() {
-                const surveySection = document.getElementById('survey-section');
-                if (this.value === 'agree') {
-                    surveySection.classList.add('show');
-                    setRequiredFields(surveySection, true);
-                } else {
-                    surveySection.classList.remove('show');
-                    setRequiredFields(surveySection, false);
-                }
-            });
-        });
+    formData.forEach((value, key) => {
+        if (key.includes('[]')) {
+            const baseKey = key.replace('[]', '');
+            if (!jsonData[baseKey]) {
+                jsonData[baseKey] = [];
+            }
+            jsonData[baseKey].push(value);
+        } else {
+            jsonData[key] = value;
+        }
+    });
+
+    // チェックボックスグループの処理
+    ['project_field', 'activity_time', 'acquired_skills', 'important_issues'].forEach(groupName => {
+        const checkedBoxes = Array.from(
+            document.querySelectorAll(`input[name="${groupName}"]:checked`)
+        ).map(cb => cb.value);
+        if (checkedBoxes.length > 0) {
+            jsonData[groupName] = checkedBoxes;
+        }
+    });
+
+    // 接続テスト日程の処理
+    const selectedDates = Array.from(
+        document.querySelectorAll('input[name="connection-test-slots"]:checked')
+    ).map(checkbox => checkbox.value);
+    if (selectedDates.length > 0) {
+        jsonData['connection_test_dates'] = selectedDates;
     }
-    
-// フォーム要素の必須設定を制御する関数
+
+    return jsonData;
+}
+
+// 条件付き表示の制御
+function initializeConditionalDisplays() {
+    // 役割選択による表示制御
+    document.querySelectorAll('input[name="role"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            const representativeSection = document.getElementById('representative-section');
+            const isRepresentative = this.value === 'プロジェクト代表者';
+            representativeSection.classList.toggle('show', isRepresentative);
+            setRequiredFields(representativeSection, isRepresentative);
+        });
+    });
+
+    // Summit選択による表示制御
+    document.getElementById('summit').addEventListener('change', function() {
+        const isOnline = this.value.includes('オンライン');
+        const sections = ['online-participation-section', 'connection-test-section'];
+        
+        sections.forEach(sectionId => {
+            const section = document.getElementById(sectionId);
+            section.classList.toggle('show', isOnline);
+            setRequiredFields(section, isOnline);
+        });
+    });
+
+    // 同意による表示制御
+    document.querySelectorAll('input[name="survey-consent"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            const surveySection = document.getElementById('survey-section');
+            const isAgreed = this.value === 'agree';
+            surveySection.classList.toggle('show', isAgreed);
+            setRequiredFields(surveySection, isAgreed);
+        });
+    });
+}
+
+// 必須フィールドの設定
 function setRequiredFields(container, required) {
-    const requiredElements = container.querySelectorAll('input[required], select[required], textarea[required]');
-    requiredElements.forEach(element => {
+    container.querySelectorAll('input[required], select[required], textarea[required]').forEach(element => {
         element.required = required;
     });
 }
 
-// 接続テスト日程の動的生成
+// 接続テスト日程の生成
 function generateConnectionTestDates() {
     const dates = [
         { date: '12/26', times: ['18:30-21:30'] },
@@ -1639,102 +1576,93 @@ function generateConnectionTestDates() {
     const container = document.getElementById('connection-test-dates');
     if (!container) return;
 
-    container.innerHTML = ''; // 既存の内容をクリア
-
-    dates.forEach(dateObj => {
-        dateObj.times.forEach(time => {
-            const label = document.createElement('label');
-            const input = document.createElement('input');
-            input.type = 'checkbox';
-            input.name = 'connection-test-slots';
-            input.value = `${dateObj.date} ${time}`;
-            label.appendChild(input);
-            label.appendChild(document.createTextNode(` ${dateObj.date} ${time}`));
-            container.appendChild(label);
-        });
-    });
+    container.innerHTML = dates.map(dateObj => 
+        dateObj.times.map(time => 
+            `<label>
+                <input type="checkbox" name="connection-test-slots" value="${dateObj.date} ${time}">
+                ${dateObj.date} ${time}
+            </label>`
+        ).join('')
+    ).join('');
 }
 
-// 学校検索機能の初期化
+// 学校検索機能
 function initializeSchoolSearch() {
-    const searchButton = document.getElementById('search-school');
-    const popup = document.getElementById('school-search-popup');
-    const overlay = document.getElementById('overlay');
-    const searchInput = document.getElementById('school-search-input');
-    const searchResults = document.getElementById('school-search-results');
-    const schoolNameInput = document.getElementById('school-name');
-    const schoolSearchButton = document.getElementById('school-search-button');
+    const elements = {
+        searchButton: document.getElementById('search-school'),
+        popup: document.getElementById('school-search-popup'),
+        overlay: document.getElementById('overlay'),
+        searchInput: document.getElementById('school-search-input'),
+        searchResults: document.getElementById('school-search-results'),
+        schoolNameInput: document.getElementById('school-name'),
+        schoolSearchButton: document.getElementById('school-search-button')
+    };
 
-    // 学校データの初期取得
-    fetchSchools().then(fetchedSchools => {
-        schools = fetchedSchools;
+    fetchSchools().then(fetchedSchools => schools = fetchedSchools);
+
+    elements.searchButton.addEventListener('click', () => {
+        elements.popup.style.display = 'block';
+        elements.overlay.style.display = 'block';
+        elements.searchInput.focus();
+        elements.searchResults.innerHTML = '';
+        elements.searchResults.appendChild(createOtherOption(elements.schoolNameInput));
     });
 
-    // 検索ボタンのクリックハンドラ
-    searchButton.addEventListener('click', function() {
-        popup.style.display = 'block';
-        overlay.style.display = 'block';
-        searchInput.focus();
-        searchResults.innerHTML = '';
-        searchResults.appendChild(createOtherOption());
-    });
+    elements.overlay.addEventListener('click', () => closePopup(elements));
 
-    // オーバーレイのクリックハンドラ
-    overlay.addEventListener('click', closePopup);
-
-    // 検索実行ボタンのクリックハンドラ
-    schoolSearchButton.addEventListener('click', function() {
-        const searchTerm = searchInput.value.toLowerCase();
+    elements.schoolSearchButton.addEventListener('click', () => {
+        const searchTerm = elements.searchInput.value.toLowerCase();
         const filteredSchools = schools.filter(school => 
             school.toLowerCase().includes(searchTerm)
         );
-        displaySearchResults(filteredSchools);
+        displaySearchResults(filteredSchools, elements);
     });
-
-    // 検索結果の表示
-    function displaySearchResults(results) {
-        searchResults.innerHTML = '';
-        
-        if (results.length === 0) {
-            const noResults = document.createElement('li');
-            noResults.textContent = '該当する高校が見つかりません';
-            noResults.style.fontStyle = 'italic';
-            noResults.style.color = '#666';
-            searchResults.appendChild(noResults);
-        } else {
-            results.forEach(school => {
-                const li = document.createElement('li');
-                li.textContent = school;
-                li.addEventListener('click', function() {
-                    schoolNameInput.value = school;
-                    closePopup();
-                });
-                searchResults.appendChild(li);
-            });
-        }
-
-        searchResults.appendChild(createOtherOption());
-    }
-
-    // 「その他」オプションの作成
-    function createOtherOption() {
-        const otherOption = document.createElement('li');
-        otherOption.textContent = 'その他（なしを含む）';
-        otherOption.addEventListener('click', function() {
-            schoolNameInput.value = 'その他（なしを含む）';
-            closePopup();
-        });
-        return otherOption;
-    }
-
-    // ポップアップを閉じる
-    function closePopup() {
-        popup.style.display = 'none';
-        overlay.style.display = 'none';
-    }
 }
 
-// 学校データの取得
+function displaySearchResults(results, elements) {
+    elements.searchResults.innerHTML = '';
+    
+    if (results.length === 0) {
+        const noResults = document.createElement('li');
+        noResults.textContent = '該当する高校が見つかりません';
+        noResults.style.fontStyle = 'italic';
+        noResults.style.color = '#666';
+        elements.searchResults.appendChild(noResults);
+    } else {
+        results.forEach(school => {
+            const li = document.createElement('li');
+            li.textContent = school;
+            li.addEventListener('click', () => {
+                elements.schoolNameInput.value = school;
+                closePopup(elements);
+            });
+            elements.searchResults.appendChild(li);
+        });
+    }
+
+    elements.searchResults.appendChild(createOtherOption(elements.schoolNameInput));
+}
+
+function createOtherOption(schoolNameInput) {
+    const otherOption = document.createElement('li');
+    otherOption.textContent = 'その他（なしを含む）';
+    otherOption.addEventListener('click', function() {
+        schoolNameInput.value = this.textContent;
+        const elements = {
+            popup: document.getElementById('school-search-popup'),
+            overlay: document.getElementById('overlay')
+        };
+        closePopup(elements);
+    });
+    return otherOption;
+}
+
+function closePopup(elements) {
+    elements.popup.style.display = 'none';
+    elements.overlay.style.display = 'none';
+}
+
+// データ取得・送信
 async function fetchSchools() {
     try {
         const form = document.createElement('form');
@@ -1745,6 +1673,7 @@ async function fetchSchools() {
         const iframe = document.createElement('iframe');
         iframe.name = 'hidden-iframe';
         iframe.style.display = 'none';
+        
         document.body.appendChild(iframe);
         document.body.appendChild(form);
 
@@ -1768,8 +1697,6 @@ async function fetchSchools() {
     }
 }
 
-
-// フォームデータの送信
 async function submitFormData(jsonData) {
     try {
         const form = document.createElement('form');
