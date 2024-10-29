@@ -373,64 +373,6 @@ input[type="checkbox"] {
   .school-input-container {
     flex-direction: column;
   }
-  /* モーダルスタイル */
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.modal-content {
-    background-color: white;
-    padding: 2rem;
-    border-radius: 0.5rem;
-    max-width: 600px;
-    width: 90%;
-    max-height: 90vh;
-    overflow-y: auto;
-}
-
-.modal-content h2 {
-    color: var(--primary-color);
-    text-align: center;
-    margin-bottom: 1.5rem;
-}
-
-.thanks-message {
-    margin-bottom: 2rem;
-}
-
-.thanks-message p {
-    margin-bottom: 1rem;
-    line-height: 1.6;
-}
-
-.next-steps {
-    background-color: var(--bg-secondary);
-    padding: 1.5rem;
-    border-radius: 0.5rem;
-    margin-bottom: 2rem;
-}
-
-.next-steps h3 {
-    color: var(--text-primary);
-    margin-bottom: 1rem;
-}
-
-.next-steps ol {
-    margin-left: 1.5rem;
-}
-
-.next-steps li {
-    margin-bottom: 0.5rem;
-}
 
 .close-button {
     background-color: var(--primary-color);
@@ -1494,26 +1436,29 @@ input[type="checkbox"] {
         <ul id="school-search-results"></ul>
     </div>
 
-    <!-- サンクスページのモーダル -->
-<div id="thanks-modal" class="modal" style="display: none;">
-    <div class="modal-content">
-        <h2>ご回答ありがとうございました</h2>
-        <div class="thanks-message">
-            <p>全国高校生MY PROJECT AWARD 2024の参加登録が完了しました。</p>
-            <p>ご入力いただいたメールアドレス宛に、確認メールをお送りいたしますので、ご確認ください。</p>
-            <p>今後の案内も、ご入力いただいたメールアドレス宛にお送りさせていただきます。</p>
+    // HTMLのbody終了タグの直前に以下を追加
+    <div id="thanksPopup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+        background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.5); z-index: 1000;
+        max-width: 90%; width: 500px;">
+        <h2 style="color: #2563eb; text-align: center; margin-bottom: 20px;">ご回答ありがとうございました</h2>
+        <div style="margin-bottom: 20px;">
+            <p style="margin-bottom: 10px;">全国高校生MY PROJECT AWARD 2024の参加登録が完了しました。</p>
+            <p style="margin-bottom: 10px;">ご入力いただいたメールアドレス宛に、確認メールをお送りいたしますので、ご確認ください。</p>
+            <p style="margin-bottom: 20px;">今後の案内も、ご入力いただいたメールアドレス宛にお送りさせていただきます。</p>
         </div>
-        <div class="next-steps">
-            <h3>今後の流れ</h3>
-            <ol>
-                <li>機器貸出希望の方には、別途ご連絡いたします</li>
-                <li>Summit前日までに、参加方法の詳細をご連絡いたします</li>
-                <li>当日は、記載の時間になりましたら指定の場所にお集まりください</li>
+        <div style="background: #f3f4f6; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+            <h3 style="margin-bottom: 15px;">今後の流れ</h3>
+            <ol style="margin-left: 20px;">
+                <li style="margin-bottom: 10px;">機器貸出希望の方には、別途ご連絡いたします</li>
+                <li style="margin-bottom: 10px;">Summit前日までに、参加方法の詳細をご連絡いたします</li>
+                <li style="margin-bottom: 10px;">当日は、記載の時間になりましたら指定の場所にお集まりください</li>
             </ol>
         </div>
-        <button class="close-button" id="thanks-close">閉じる</button>
+        <button onclick="closeThanksPopup()" style="width: 100%; padding: 10px; background: #2563eb; color: white; 
+            border: none; border-radius: 5px; cursor: pointer;">閉じる</button>
     </div>
-</div>
+    <div id="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+        background: rgba(0,0,0,0.5); z-index: 999;"></div>
 
     
 </body>
@@ -7151,9 +7096,9 @@ function processFormData(formData) {
 }
 
 // フォームデータの送信
+// フォームデータの送信
 async function submitFormData(jsonData) {
     try {
-        // 非同期でフォームを送信（fetchのみを使用）
         const response = await fetch(WEBAPP_URL, {
             method: 'POST',
             headers: {
@@ -7168,26 +7113,71 @@ async function submitFormData(jsonData) {
             throw new Error('Network response was not ok');
         }
 
-        // サンクスページを表示
-        const thanksModal = document.getElementById('thanks-modal');
-        thanksModal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-
+        // サンクスポップアップを表示
+        showThanksPopup();
         return { success: true };
     } catch (error) {
         console.error('送信エラー:', error);
         return { success: false, error: error.message };
     }
 }
-document.getElementById('thanks-close').addEventListener('click', function() {
-    const modal = document.getElementById('thanks-modal');
-    modal.style.display = 'none';
-    document.body.style.overflow = 'auto';
-    // フォームをリセット
-    document.getElementById('registrationForm').reset();
-    // ページの先頭にスクロール
-    window.scrollTo(0, 0);
+
+// サンクスポップアップを表示する関数
+function showThanksPopup() {
+    document.getElementById('thanksPopup').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+    document.body.style.overflow = 'hidden'; // スクロールを無効化
+}
+
+// サンクスポップアップを閉じる関数
+function closeThanksPopup() {
+    document.getElementById('thanksPopup').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+    document.body.style.overflow = 'auto'; // スクロールを再有効化
+    document.getElementById('registrationForm').reset(); // フォームをリセット
+    window.scrollTo(0, 0); // ページトップにスクロール
+}
+
+// フォーム送信のイベントリスナー
+document.getElementById('registrationForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    if (!validateEmails() || !validateVisibleFields()) {
+        alert('表示されている必須項目をすべて正しく入力してください。');
+        const firstError = document.querySelector('.error');
+        if (firstError) {
+            firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return;
+    }
+
+    const submitButton = document.querySelector('.submit-button');
+    if (!submitButton) {
+        console.error('送信ボタンが見つかりません');
+        return;
+    }
+
+    try {
+        submitButton.disabled = true;
+        submitButton.value = '送信中...';
+        
+        const formData = new FormData(this);
+        const jsonData = processFormData(formData);
+        const response = await submitFormData(jsonData);
+        
+        if (!response.success) {
+            throw new Error('送信に失敗しました');
+        }
+    } catch (error) {
+        console.error('送信エラー:', error);
+        alert('送信に失敗しました。もう一度お試しください。');
+        submitButton.disabled = false;
+        submitButton.value = '送信';
+    }
 });
+
+// オーバーレイクリックでもポップアップを閉じられるようにする
+document.getElementById('overlay').addEventListener('click', closeThanksPopup);
 
 </script>
 </html>
