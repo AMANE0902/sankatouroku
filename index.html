@@ -373,6 +373,87 @@ input[type="checkbox"] {
   .school-input-container {
     flex-direction: column;
   }
+  /* モーダルスタイル */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-content h2 {
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.thanks-message {
+    margin-bottom: 2rem;
+}
+
+.thanks-message p {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.next-steps {
+    background-color: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.next-steps h3 {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.next-steps ol {
+    margin-left: 1.5rem;
+}
+
+.next-steps li {
+    margin-bottom: 0.5rem;
+}
+
+.close-button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.2s;
+}
+
+.close-button:hover {
+    background-color: var(--primary-hover);
+}
+
+@media (max-width: 640px) {
+    .modal-content {
+        padding: 1.5rem;
+    }
+}
 }
     </style>
 </head>
@@ -1412,6 +1493,27 @@ input[type="checkbox"] {
         <button id="school-search-button">検索</button>
         <ul id="school-search-results"></ul>
     </div>
+
+    <!-- サンクスページのモーダル -->
+<div id="thanks-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <h2>ご回答ありがとうございました</h2>
+        <div class="thanks-message">
+            <p>全国高校生MY PROJECT AWARD 2024の参加登録が完了しました。</p>
+            <p>ご入力いただいたメールアドレス宛に、確認メールをお送りいたしますので、ご確認ください。</p>
+            <p>今後の案内も、ご入力いただいたメールアドレス宛にお送りさせていただきます。</p>
+        </div>
+        <div class="next-steps">
+            <h3>今後の流れ</h3>
+            <ol>
+                <li>機器貸出希望の方には、別途ご連絡いたします</li>
+                <li>Summit前日までに、参加方法の詳細をご連絡いたします</li>
+                <li>当日は、記載の時間になりましたら指定の場所にお集まりください</li>
+            </ol>
+        </div>
+        <button onclick="window.location.reload()" class="close-button">閉じる</button>
+    </div>
+</div>
 
     
 </body>
@@ -7062,7 +7164,6 @@ async function submitFormData(jsonData) {
         const form = document.createElement('form');
         form.method = 'POST';
         form.action = WEBAPP_URL;
-        form.target = '_blank';
 
         const hiddenField = document.createElement('input');
         hiddenField.type = 'hidden';
@@ -7070,9 +7171,23 @@ async function submitFormData(jsonData) {
         hiddenField.value = JSON.stringify(jsonData);
         form.appendChild(hiddenField);
 
-        document.body.appendChild(form);
-        form.submit();
-        document.body.removeChild(form);
+        // 非同期でフォームを送信
+        const response = await fetch(WEBAPP_URL, {
+            method: 'POST',
+            body: new URLSearchParams({
+                'payload': JSON.stringify(jsonData)
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        // サンクスページを表示
+        document.getElementById('thanks-modal').style.display = 'flex';
+        
+        // スクロールを無効化
+        document.body.style.overflow = 'hidden';
 
         return { success: true };
     } catch (error) {
