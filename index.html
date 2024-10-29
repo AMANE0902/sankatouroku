@@ -6923,6 +6923,7 @@ form.addEventListener('submit', async function(e) {
     }
 
     try {
+        // 送信ボタンを無効化
         submitButton.disabled = true;
         submitButton.value = '送信中...';
         
@@ -6930,16 +6931,14 @@ form.addEventListener('submit', async function(e) {
         const jsonData = processFormData(formData);
         const response = await submitFormData(jsonData);
         
-        if (response.success) {
-            const thanksModal = document.getElementById('thanks-modal');
-            thanksModal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        } else {
+        if (!response.success) {
             throw new Error('送信に失敗しました');
         }
     } catch (error) {
         console.error('送信エラー:', error);
         alert('送信に失敗しました。もう一度お試しください。');
+        
+        // エラー時はボタンを元に戻す
         submitButton.disabled = false;
         submitButton.value = '送信';
     }
@@ -7154,19 +7153,12 @@ function processFormData(formData) {
 // フォームデータの送信
 async function submitFormData(jsonData) {
     try {
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = WEBAPP_URL;
-
-        const hiddenField = document.createElement('input');
-        hiddenField.type = 'hidden';
-        hiddenField.name = 'payload';
-        hiddenField.value = JSON.stringify(jsonData);
-        form.appendChild(hiddenField);
-
-        // 非同期でフォームを送信
+        // 非同期でフォームを送信（fetchのみを使用）
         const response = await fetch(WEBAPP_URL, {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
             body: new URLSearchParams({
                 'payload': JSON.stringify(jsonData)
             })
@@ -7177,9 +7169,8 @@ async function submitFormData(jsonData) {
         }
 
         // サンクスページを表示
-        document.getElementById('thanks-modal').style.display = 'flex';
-        
-        // スクロールを無効化
+        const thanksModal = document.getElementById('thanks-modal');
+        thanksModal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
 
         return { success: true };
