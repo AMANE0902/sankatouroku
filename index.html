@@ -1511,7 +1511,7 @@ input[type="checkbox"] {
                 <li>当日は、記載の時間になりましたら指定の場所にお集まりください</li>
             </ol>
         </div>
-        <button onclick="window.location.reload()" class="close-button">閉じる</button>
+        <button class="close-button" id="thanks-close">閉じる</button>
     </div>
 </div>
 
@@ -6903,12 +6903,10 @@ function initializeFormValidation() {
         return isValid;
     }
 
-// フォーム送信時の処理を修正
+// フォーム送信時の処理
 form.addEventListener('submit', async function(e) {
     e.preventDefault();
     
-    // バリデーションの実行
-    restoreFormAttributes();
     if (!validateEmails() || !validateVisibleFields()) {
         alert('表示されている必須項目をすべて正しく入力してください。');
         const firstError = document.querySelector('.error');
@@ -6918,7 +6916,6 @@ form.addEventListener('submit', async function(e) {
         return;
     }
 
-    // 送信ボタンの取得方法を修正
     const submitButton = document.querySelector('.submit-button');
     if (!submitButton) {
         console.error('送信ボタンが見つかりません');
@@ -6926,7 +6923,6 @@ form.addEventListener('submit', async function(e) {
     }
 
     try {
-        // 送信ボタンを無効化
         submitButton.disabled = true;
         submitButton.value = '送信中...';
         
@@ -6935,20 +6931,17 @@ form.addEventListener('submit', async function(e) {
         const response = await submitFormData(jsonData);
         
         if (response.success) {
-            alert('回答を送信しました。ありがとうございました。');
-            window.location.reload();
+            const thanksModal = document.getElementById('thanks-modal');
+            thanksModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
         } else {
             throw new Error('送信に失敗しました');
         }
     } catch (error) {
         console.error('送信エラー:', error);
         alert('送信に失敗しました。もう一度お試しください。');
-        
-        // エラー時のボタン状態の復元
-        if (submitButton) {
-            submitButton.disabled = false;
-            submitButton.value = '送信';
-        }
+        submitButton.disabled = false;
+        submitButton.value = '送信';
     }
 });
 
@@ -7195,5 +7188,15 @@ async function submitFormData(jsonData) {
         return { success: false, error: error.message };
     }
 }
+document.getElementById('thanks-close').addEventListener('click', function() {
+    const modal = document.getElementById('thanks-modal');
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+    // フォームをリセット
+    document.getElementById('registrationForm').reset();
+    // ページの先頭にスクロール
+    window.scrollTo(0, 0);
+});
+
 </script>
 </html>
